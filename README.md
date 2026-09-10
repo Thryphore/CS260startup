@@ -10,33 +10,28 @@ I am making a website that will show crowd-sourced skips for fractals to improve
 
 ### Design
 
-![Design image](placeholder.png)
+![Design image](20260909_205810.jpg)
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 
-```mermaid
-sequenceDiagram
-    actor You
-    actor Website
-    You->>Website: Replace this with your design
-```
+
+
 
 ### Key features
 
-- Describe your key feature
-- Describe your key feature
-- Describe your key feature
+- Shows skips for fractals
+- Logging in for crowd sourcing
+- Updates for new fractals
 
 ### Technologies
 
 I am going to use the required technologies in the following ways.
 
-- **HTML** - Description here
-- **CSS** - Description here
-- **React** - Description here
-- **Service** - Description here
-- **DB/Login** - Description here
-- **WebSocket** - Description here
+- **HTML** - Uses structural HTML to build the application. Includes an authentication page, a main dashboard for browsing skips, a submission form, and a live practice board.
+- **CSS** - Styles the application for responsive design across different screen sizes. Implements a dark theme with consistent whitespace and color contrast to match the game's aesthetic.
+- **React** - Handles the frontend UI components, including the dynamic submission form, the interactive skip gallery, state management for user sessions, and view routing.
+- **Service** - An Express backend providing RESTful API endpoints to handle user authentication, fetch skip data, process new submissions, and pull current Daily Fractals from the official Guild Wars 2 API.
+- **DB/Login** - Securely stores user credentials, skip details, and community votes in a database. Ensures only authenticated users can submit new content or vote.
+- **WebSocket** - Broadcasts real-time updates across the platform so that new skip submissions and posts to the live practice LFG board appear instantly for all connected users without refreshing the page.
 
 ## 🚀 Specification Deliverable
 
@@ -45,12 +40,12 @@ I am going to use the required technologies in the following ways.
 
 For this deliverable I did the following. I checked the box `[x]` and added a description for things I completed.
 
-- [ ] I completed the prerequisites for this deliverable (Git commit requirement)
-- [ ] Proper use of Markdown
-- [ ] A concise and compelling elevator pitch
-- [ ] Description of key features
-- [ ] Description of how you will use each technology including your 3rd party API and use of WebSocket
-- [ ] One or more rough sketches of your application. Images must be embedded in this file using Markdown image references.
+- [x] I completed the prerequisites for this deliverable (Git commit requirement)
+- [x] Proper use of Markdown
+- [x] A concise and compelling elevator pitch
+- [x] Description of key features
+- [x] Description of how you will use each technology including your 3rd party API and use of WebSocket
+- [x] One or more rough sketches of your application. Images must be embedded in this file using Markdown image references.
 
 ## 🚀 AWS deliverable
 
