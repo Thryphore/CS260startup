@@ -10,5 +10,6 @@
   <circle cx="320" cy="190" r="55" fill="#2a6f86" opacity="0.25"/>
   <polygon points="200,40 280,110 250,190 150,190 120,110" fill="none" stroke="#9ad7ea" stroke-width="3"/>
   <polygon points="200,75 240,120 225,165 175,165 160,120" fill="#c9a227" opacity="0.85"/>
-  <text x="200" y="228" text-anchor="middle" fill="#e8f4f8" font-family="Georgia, serif" font-size="18">Mistlock Observatory</text>
+  <text x="200" y="218" text-anchor="middle" fill="#e8f4f8" font-family="Georgia, serif" font-size="22">PLACEHOLDER</text>
+  <text x="200" y="238" text-anchor="middle" fill="#9ad7ea" font-family="Georgia, serif" font-size="14">Welcome image</text>
 </svg>

@@ -25,22 +25,24 @@
       <h1>Sigils &amp; Relics</h1>
       <p>
         Pick your profession, role, and fight to see recommended sigils and
-        relics for fractals or raids. Community suggestions are stored in the
+        relics for fractals or raids. Community suggestions will be stored in the
         database. Item details will later come from the Guild Wars 2 API.
       </p>
 
       <div class="players">
         Logged in as:
-        <span class="player-name">Mystery player</span>
+        <span class="player-name"><em>Placeholder — not logged in</em></span>
       </div>
 
       <br />
 
       <h2>Find recommendations</h2>
+      <p><em>Placeholder — gear lookup is not wired up yet.</em></p>
       <form>
         <div>
           <label for="profession">Profession</label>
-          <select id="profession">
+          <select id="profession" disabled>
+            <option>Placeholder — profession list</option>
             <option>Guardian</option>
             <option>Revenant</option>
             <option>Warrior</option>
@@ -54,7 +56,8 @@
         </div>
         <div>
           <label for="role">Role</label>
-          <select id="role">
+          <select id="role" disabled>
+            <option>Placeholder — role list</option>
             <option>DPS</option>
             <option>Healer</option>
             <option>Support / Quickness</option>
@@ -64,7 +67,8 @@
         </div>
         <div>
           <label for="fight">Fight</label>
-          <select id="fight">
+          <select id="fight" disabled>
+            <option>Placeholder — fight list</option>
             <optgroup label="Fractals">
               <option>General Fractals</option>
               <option>Nightmare — Ensolyss</option>
@@ -106,13 +110,13 @@
             </optgroup>
           </select>
         </div>
-        <button type="submit">Show gear</button>
+        <button type="submit" disabled>Show gear (placeholder)</button>
       </form>
 
       <br />
 
       <h2>Recommended gear (database)</h2>
-      <p>Database placeholder — profession and role gear matches will load here.</p>
+      <p><em>Placeholder — no gear recommendations are loaded yet.</em></p>
       <table>
         <thead>
           <tr>
@@ -123,24 +127,7 @@
         </thead>
         <tbody>
           <tr>
-            <td>Sigil (main)</td>
-            <td>Superior Sigil of Force</td>
-            <td>+5% damage for general fractal DPS</td>
-          </tr>
-          <tr>
-            <td>Sigil (offhand / swap)</td>
-            <td>Superior Sigil of Accuracy</td>
-            <td>Crit chance for power builds</td>
-          </tr>
-          <tr>
-            <td>Relic</td>
-            <td>Relic of the Fractal</td>
-            <td>Extra agony resistance and fractal damage</td>
-          </tr>
-          <tr>
-            <td>Relic (boss)</td>
-            <td>Relic of Fireworks</td>
-            <td>Burst windows on short boss phases</td>
+            <td colspan="3"><em>Placeholder — empty until database content is available</em></td>
           </tr>
         </tbody>
       </table>
@@ -149,17 +136,17 @@
 
       <h2>Item details from Guild Wars 2 API</h2>
       <p>
-        Third-party service placeholder — item icons, descriptions, and stats
-        will be fetched from the official Guild Wars 2 API
-        (<code>https://api.guildwars2.com</code>).
+        <em>Placeholder — Guild Wars 2 API is not connected yet.</em>
+        Item icons, descriptions, and stats will later be fetched from
+        <code>https://api.guildwars2.com</code>.
       </p>
       <div id="picture" class="picture-box">
-        <img width="200" src="gear-placeholder.svg" alt="Sigil or relic icon placeholder" />
+        <img width="200" src="gear-placeholder.svg" alt="Placeholder for item icon" />
       </div>
       <div id="api-item">
-        <div><strong>Superior Sigil of Force</strong></div>
-        <div>+5% Damage</div>
-        <div>API response placeholder</div>
+        <div><em>Placeholder — item name</em></div>
+        <div><em>Placeholder — item stats</em></div>
+        <div><em>Placeholder — API response</em></div>
       </div>
     </main>
 
