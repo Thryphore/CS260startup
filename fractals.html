@@ -18,6 +18,11 @@
         </menu>
       </nav>
 
+      <div class="user">
+        Username:
+        <span class="username"><em>Placeholder — not logged in</em></span>
+      </div>
+
       <hr />
     </header>
 
@@ -33,15 +38,11 @@
         <img width="640" src="fractals.png" alt="Crystalline fractal platforms over mist" />
       </div>
 
-      <div class="players">
-        Logged in as:
-        <span class="player-name"><em>Placeholder — not logged in</em></span>
-      </div>
-
       <h2>Live updates</h2>
-      <p><em>Placeholder — WebSocket live feed is not connected yet.</em></p>
+      <p><em>Placeholder — WebSocket live feed is not connected yet. Example shape of realtime messages:</em></p>
       <ul class="notification">
-        <li><em>Placeholder — realtime skip submissions and votes will appear here.</em></li>
+        <li><em>Placeholder user</em> submitted a skip for <em>Placeholder fractal</em></li>
+        <li><em>Placeholder user</em> upvoted <em>Placeholder skip title</em></li>
       </ul>
 
       <br />
@@ -92,7 +93,7 @@
       <br />
 
       <h2>Skips from the database</h2>
-      <p><em>Placeholder — no skip data is loaded yet. Stored fractal skips will appear in this table.</em></p>
+      <p><em>Placeholder — no real skip data is loaded yet. Example shape of stored rows:</em></p>
       <table>
         <thead>
           <tr>
@@ -104,7 +105,16 @@
         </thead>
         <tbody>
           <tr>
-            <td colspan="4"><em>Placeholder — empty until database content is available</em></td>
+            <td><em>Placeholder fractal</em></td>
+            <td><em>Placeholder skip title</em></td>
+            <td><em>Placeholder user</em></td>
+            <td><em>—</em></td>
+          </tr>
+          <tr>
+            <td><em>Placeholder fractal</em></td>
+            <td><em>Placeholder skip notes</em></td>
+            <td><em>Placeholder user</em></td>
+            <td><em>—</em></td>
           </tr>
         </tbody>
       </table>

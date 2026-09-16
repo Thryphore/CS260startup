@@ -59,16 +59,16 @@ For this deliverable I did the following. I checked the box `[x]` and added a de
 
 For this deliverable I did the following. I checked the box `[x]` and added a description for things I completed.
 
-- [ ] I completed the prerequisites for this deliverable (Simon deployed, GitHub link, Git commits)
-- [ ] **HTML pages** - I did not complete this part of the deliverable.
-- [ ] **Proper HTML element usage** - I did not complete this part of the deliverable.
-- [ ] **Links** - I did not complete this part of the deliverable.
-- [ ] **Text** - I did not complete this part of the deliverable.
-- [ ] **3rd party API placeholder** - I did not complete this part of the deliverable.
-- [ ] **Images** - I did not complete this part of the deliverable.
-- [ ] **Login placeholder** - I did not complete this part of the deliverable.
-- [ ] **DB data placeholder** - I did not complete this part of the deliverable.
-- [ ] **WebSocket placeholder** - I did not complete this part of the deliverable.
+- [x] I completed the prerequisites for this deliverable (Simon deployed, GitHub link, Git commits)
+- [x] **HTML pages** - Created `index.html` (home + login), `fractals.html` (skips, submit form, live updates), and `gear.html` (gear lookup + API).
+- [x] **Proper HTML element usage** - Used `header`, `nav`, `main`, `footer`, forms, tables, labels, and lists consistently across pages.
+- [x] **Links** - Shared navigation between all pages, plus in-content links from home to Fractal Skips and Gear.
+- [x] **Text** - Application copy describing fractal skips, gear recommendations, and how login, database, API, and WebSocket features will work.
+- [x] **3rd party API placeholder** - Gear page includes a Guild Wars 2 API section with `https://api.guildwars2.com` and labeled response placeholders.
+- [x] **Images** - Hero images on each page (`welcome.png`, `fractals.png`, `gear.png`), plus `gear-icon.png` and `favicon.svg`.
+- [x] **Login placeholder** - Login/create form on home, with username display placeholder in the header on every page.
+- [x] **DB data placeholder** - Placeholder tables for stored skips on Fractals and recommended gear on Gear, with clearly labeled example rows.
+- [x] **WebSocket placeholder** - Live updates section on Fractals showing where realtime skip submissions and votes will appear.
 
 ## 🚀 CSS deliverable
 
