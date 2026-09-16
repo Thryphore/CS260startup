@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Fractal Skips</title>
+    <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  </head>
+  <body>
+    <header>
+      <h1>Fractal Skip Hub</h1>
+
+      <nav>
+        <menu>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="fractals.html">Fractal Skips</a></li>
+          <li><a href="gear.html">Gear</a></li>
+        </menu>
+      </nav>
+
+      <hr />
+    </header>
+
+    <main>
+      <h1>Fractal Skips</h1>
+      <p>
+        Browse and contribute crowd-sourced skip routes for Mistlock Sanctuary
+        fractals. Tips below are loaded from the database and updated live as
+        players submit new strategies.
+      </p>
+
+      <div class="players">
+        Logged in as:
+        <span class="player-name">Mystery player</span>
+      </div>
+
+      <h2>Live updates</h2>
+      <p>WebSocket placeholder — realtime skip submissions and votes will appear here.</p>
+      <ul class="notification">
+        <li class="player-name">Aria submitted a skip for Volcanic</li>
+        <li class="player-name">Kai upvoted a Solid Ocean portal skip</li>
+        <li class="player-name">Ryn shared a Nightmare trash skip</li>
+      </ul>
+
+      <br />
+
+      <h2>Submit a skip</h2>
+      <form>
+        <div>
+          <label for="fractal">Fractal</label>
+          <select id="fractal">
+            <option>Volcanic</option>
+            <option>Uncategorized</option>
+            <option>Snowblind</option>
+            <option>Urban Battleground</option>
+            <option>Swampland</option>
+            <option>Cliffside</option>
+            <option>Aquatic Ruins</option>
+            <option>Underground Facility</option>
+            <option>Molten Furnace</option>
+            <option>Molten Boss</option>
+            <option>Aetherblade</option>
+            <option>Thaumanova Reactor</option>
+            <option>Solid Ocean</option>
+            <option>Captain Mai Trin Boss</option>
+            <option>Chaos Isles</option>
+            <option>Nightmare</option>
+            <option>Shattered Observatory</option>
+            <option>Twilight Oasis</option>
+            <option>Deepstone</option>
+            <option>Sunqua Peak</option>
+            <option>Silent Surf</option>
+            <option>Lonely Tower</option>
+          </select>
+        </div>
+        <div>
+          <label for="skip-title">Title</label>
+          <input type="text" id="skip-title" placeholder="Short skip name" />
+        </div>
+        <div>
+          <label for="skip-notes">Notes</label>
+          <br />
+          <textarea id="skip-notes" rows="4" cols="50" placeholder="Describe the route, mounts, skills, or timing"></textarea>
+        </div>
+        <button type="submit">Submit skip</button>
+      </form>
+
+      <br />
+
+      <h2>Skips from the database</h2>
+      <p>Database placeholder — stored fractal skip content will load here.</p>
+      <table>
+        <thead>
+          <tr>
+            <th>Fractal</th>
+            <th>Skip</th>
+            <th>Submitted by</th>
+            <th>Votes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Volcanic</td>
+            <td>Leap over lava packs after first statue</td>
+            <td>Aria</td>
+            <td>42</td>
+          </tr>
+          <tr>
+            <td>Solid Ocean</td>
+            <td>Portal past jellyfish before jade Maw</td>
+            <td>Kai</td>
+            <td>37</td>
+          </tr>
+          <tr>
+            <td>Nightmare</td>
+            <td>Skip south trash with stability and superspeed</td>
+            <td>Ryn</td>
+            <td>29</td>
+          </tr>
+          <tr>
+            <td>Sunqua Peak</td>
+            <td>Mount skip to second platform after Ai phase 1</td>
+            <td>Nova</td>
+            <td>21</td>
+          </tr>
+        </tbody>
+      </table>
+    </main>
+
+    <footer>
+      <hr />
+      <span class="text-reset">Thryphore</span>
+      <br />
+      <a href="https://github.com/Thryphore">GitHub</a>
+    </footer>
+  </body>
+</html>

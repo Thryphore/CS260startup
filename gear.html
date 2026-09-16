@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gear Recommendations</title>
+    <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  </head>
+  <body>
+    <header>
+      <h1>Fractal Skip Hub</h1>
+
+      <nav>
+        <menu>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="fractals.html">Fractal Skips</a></li>
+          <li><a href="gear.html">Gear</a></li>
+        </menu>
+      </nav>
+
+      <hr />
+    </header>
+
+    <main>
+      <h1>Sigils &amp; Relics</h1>
+      <p>
+        Pick your profession, role, and fight to see recommended sigils and
+        relics for fractals or raids. Community suggestions are stored in the
+        database. Item details will later come from the Guild Wars 2 API.
+      </p>
+
+      <div class="players">
+        Logged in as:
+        <span class="player-name">Mystery player</span>
+      </div>
+
+      <br />
+
+      <h2>Find recommendations</h2>
+      <form>
+        <div>
+          <label for="profession">Profession</label>
+          <select id="profession">
+            <option>Guardian</option>
+            <option>Revenant</option>
+            <option>Warrior</option>
+            <option>Engineer</option>
+            <option>Ranger</option>
+            <option>Thief</option>
+            <option>Elementalist</option>
+            <option>Mesmer</option>
+            <option>Necromancer</option>
+          </select>
+        </div>
+        <div>
+          <label for="role">Role</label>
+          <select id="role">
+            <option>DPS</option>
+            <option>Healer</option>
+            <option>Support / Quickness</option>
+            <option>Support / Alacrity</option>
+            <option>Tank</option>
+          </select>
+        </div>
+        <div>
+          <label for="fight">Fight</label>
+          <select id="fight">
+            <optgroup label="Fractals">
+              <option>General Fractals</option>
+              <option>Nightmare — Ensolyss</option>
+              <option>Shattered Observatory — Arkk</option>
+              <option>Sunqua Peak — Ai</option>
+              <option>Silent Surf — Kanaxai</option>
+              <option>Lonely Tower — Dagda</option>
+              <option>Captain Mai Trin Boss</option>
+              <option>Molten Boss</option>
+            </optgroup>
+            <optgroup label="Raids">
+              <option>Spirit Vale — Vale Guardian</option>
+              <option>Spirit Vale — Gorseval</option>
+              <option>Spirit Vale — Sabetha</option>
+              <option>Salvation Pass — Slothasor</option>
+              <option>Salvation Pass — Bandit Trio</option>
+              <option>Salvation Pass — Matthias</option>
+              <option>Stronghold of the Faithful — Escort</option>
+              <option>Stronghold of the Faithful — Keep Construct</option>
+              <option>Stronghold of the Faithful — Xera</option>
+              <option>Bastion of the Penitent — Cairn</option>
+              <option>Bastion of the Penitent — Mursaat Overseer</option>
+              <option>Bastion of the Penitent — Samarog</option>
+              <option>Bastion of the Penitent — Deimos</option>
+              <option>Hall of Chains — Soulless Horror</option>
+              <option>Hall of Chains — River of Souls</option>
+              <option>Hall of Chains — Statues of Grenth</option>
+              <option>Hall of Chains — Dhuum</option>
+              <option>Mythwright Gambit — Conjured Amalgamate</option>
+              <option>Mythwright Gambit — Twin Largos</option>
+              <option>Mythwright Gambit — Qadim</option>
+              <option>The Key of Ahdashim — Gate</option>
+              <option>The Key of Ahdashim — Cardinal Adina</option>
+              <option>The Key of Ahdashim — Cardinal Sabir</option>
+              <option>The Key of Ahdashim — Qadim the Peerless</option>
+              <option>Mount Balrior — Greer</option>
+              <option>Mount Balrior — Decima</option>
+              <option>Mount Balrior — Ura</option>
+            </optgroup>
+          </select>
+        </div>
+        <button type="submit">Show gear</button>
+      </form>
+
+      <br />
+
+      <h2>Recommended gear (database)</h2>
+      <p>Database placeholder — profession and role gear matches will load here.</p>
+      <table>
+        <thead>
+          <tr>
+            <th>Slot</th>
+            <th>Item</th>
+            <th>Why</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Sigil (main)</td>
+            <td>Superior Sigil of Force</td>
+            <td>+5% damage for general fractal DPS</td>
+          </tr>
+          <tr>
+            <td>Sigil (offhand / swap)</td>
+            <td>Superior Sigil of Accuracy</td>
+            <td>Crit chance for power builds</td>
+          </tr>
+          <tr>
+            <td>Relic</td>
+            <td>Relic of the Fractal</td>
+            <td>Extra agony resistance and fractal damage</td>
+          </tr>
+          <tr>
+            <td>Relic (boss)</td>
+            <td>Relic of Fireworks</td>
+            <td>Burst windows on short boss phases</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <br />
+
+      <h2>Item details from Guild Wars 2 API</h2>
+      <p>
+        Third-party service placeholder — item icons, descriptions, and stats
+        will be fetched from the official Guild Wars 2 API
+        (<code>https://api.guildwars2.com</code>).
+      </p>
+      <div id="picture" class="picture-box">
+        <img width="200" src="gear-placeholder.svg" alt="Sigil or relic icon placeholder" />
+      </div>
+      <div id="api-item">
+        <div><strong>Superior Sigil of Force</strong></div>
+        <div>+5% Damage</div>
+        <div>API response placeholder</div>
+      </div>
+    </main>
+
+    <footer>
+      <hr />
+      <span class="text-reset">Thryphore</span>
+      <br />
+      <a href="https://github.com/Thryphore">GitHub</a>
+    </footer>
+  </body>
+</html>
