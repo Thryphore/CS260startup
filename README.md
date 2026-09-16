@@ -1,4 +1,6 @@
-# Your startup name here
+In the newest version, I've added a basic mostly placeholder website.
+
+# GW2 fractal and sigil help
 
 [My Notes](notes.md)
 
@@ -51,9 +53,9 @@ For this deliverable I did the following. I checked the box `[x]` and added a de
 
 For this deliverable I did the following. I checked the box `[x]` and added a description for things I completed.
 
-- [ ] **Rented EC2 server** - I did not complete this part of the deliverable.
-- [ ] **Leased domain name** - I did not complete this part of the deliverable.
-- [ ] **Server accessible** from my domain: [https://yourdomainnamehere.click](https://yourdomainnamehere.click) - I did not complete this part of the deliverable.
+- [x] **Rented EC2 server** - I rented an EC2 Micro
+- [x] **Leased domain name** - My domain name is jacobwittig.com
+- [x] **Server accessible** from my domain: [https://jacobwittig.com](https://jacobwittig.com) - I did not complete this part of the deliverable.
 
 ## 🚀 HTML deliverable
 
