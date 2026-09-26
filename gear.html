@@ -1,169 +1,214 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-bs-theme="dark">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Gear Recommendations</title>
     <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Outfit:wght@300;400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <header>
-      <h1>Fractal Skip Hub</h1>
-
-      <nav>
-        <menu>
-          <li><a href="index.html">Home</a></li>
-          <li><a href="fractals.html">Fractal Skips</a></li>
-          <li><a href="gear.html">Gear</a></li>
-        </menu>
+    <header class="site-header">
+      <nav class="navbar navbar-expand-lg">
+        <div class="container">
+          <a class="navbar-brand" href="index.html">
+            <img class="brand-icon" src="favicon.svg" alt="" />
+            Fractal Skip Hub
+          </a>
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#site-nav"
+            aria-controls="site-nav"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="site-nav">
+            <ul class="navbar-nav me-auto">
+              <li class="nav-item">
+                <a class="nav-link" href="index.html">Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="fractals.html">Fractal Skips</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="gear.html">Gear</a>
+              </li>
+            </ul>
+            <div class="user">
+              <span class="user-label">Username</span>
+              <span class="username"><em>Placeholder — not logged in</em></span>
+            </div>
+          </div>
+        </div>
       </nav>
-
-      <div class="user">
-        Username:
-        <span class="username"><em>Placeholder — not logged in</em></span>
-      </div>
-
-      <hr />
     </header>
 
-    <main>
-      <h1>Sigils &amp; Relics</h1>
-      <p>
-        Pick your profession, role, and fight to see recommended sigils and
-        relics for fractals or raids. Community suggestions will be stored in the
-        database. Item details will later come from the Guild Wars 2 API.
-      </p>
+    <main class="container py-4">
+      <section class="page-intro">
+        <h1>Sigils &amp; Relics</h1>
+        <p class="intro">
+          Pick your profession, role, and fight to see recommended sigils and
+          relics for fractals or raids. Community suggestions will be stored in the
+          database. Item details will later come from the Guild Wars 2 API.
+        </p>
+        <figure class="hero-frame">
+          <img src="gear.png" alt="Sigils and relics on a forge altar" />
+        </figure>
+      </section>
 
-      <div>
-        <img width="640" src="gear.png" alt="Sigils and relics on a forge altar" />
-      </div>
+      <section class="mt-5">
+        <h2>Find recommendations</h2>
+        <p><em>Placeholder — gear lookup is not wired up yet.</em></p>
+        <form class="lookup-form panel">
+          <div class="mb-3">
+            <label class="form-label" for="profession">Profession</label>
+            <select class="form-select" id="profession" disabled>
+              <option>Placeholder — profession list</option>
+              <option>Guardian</option>
+              <option>Revenant</option>
+              <option>Warrior</option>
+              <option>Engineer</option>
+              <option>Ranger</option>
+              <option>Thief</option>
+              <option>Elementalist</option>
+              <option>Mesmer</option>
+              <option>Necromancer</option>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label class="form-label" for="role">Role</label>
+            <select class="form-select" id="role" disabled>
+              <option>Placeholder — role list</option>
+              <option>DPS</option>
+              <option>Healer</option>
+              <option>Support / Quickness</option>
+              <option>Support / Alacrity</option>
+              <option>Tank</option>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label class="form-label" for="fight">Fight</label>
+            <select class="form-select" id="fight" disabled>
+              <option>Placeholder — fight list</option>
+              <optgroup label="Fractals">
+                <option>General Fractals</option>
+                <option>Nightmare — Ensolyss</option>
+                <option>Shattered Observatory — Arkk</option>
+                <option>Sunqua Peak — Ai</option>
+                <option>Silent Surf — Kanaxai</option>
+                <option>Lonely Tower — Dagda</option>
+                <option>Captain Mai Trin Boss</option>
+                <option>Molten Boss</option>
+              </optgroup>
+              <optgroup label="Raids">
+                <option>Spirit Vale — Vale Guardian</option>
+                <option>Spirit Vale — Gorseval</option>
+                <option>Spirit Vale — Sabetha</option>
+                <option>Salvation Pass — Slothasor</option>
+                <option>Salvation Pass — Bandit Trio</option>
+                <option>Salvation Pass — Matthias</option>
+                <option>Stronghold of the Faithful — Escort</option>
+                <option>Stronghold of the Faithful — Keep Construct</option>
+                <option>Stronghold of the Faithful — Xera</option>
+                <option>Bastion of the Penitent — Cairn</option>
+                <option>Bastion of the Penitent — Mursaat Overseer</option>
+                <option>Bastion of the Penitent — Samarog</option>
+                <option>Bastion of the Penitent — Deimos</option>
+                <option>Hall of Chains — Soulless Horror</option>
+                <option>Hall of Chains — River of Souls</option>
+                <option>Hall of Chains — Statues of Grenth</option>
+                <option>Hall of Chains — Dhuum</option>
+                <option>Mythwright Gambit — Conjured Amalgamate</option>
+                <option>Mythwright Gambit — Twin Largos</option>
+                <option>Mythwright Gambit — Qadim</option>
+                <option>The Key of Ahdashim — Gate</option>
+                <option>The Key of Ahdashim — Cardinal Adina</option>
+                <option>The Key of Ahdashim — Cardinal Sabir</option>
+                <option>The Key of Ahdashim — Qadim the Peerless</option>
+                <option>Mount Balrior — Greer</option>
+                <option>Mount Balrior — Decima</option>
+                <option>Mount Balrior — Ura</option>
+              </optgroup>
+            </select>
+          </div>
+          <button class="btn btn-mist" type="submit" disabled>Show gear (placeholder)</button>
+        </form>
+      </section>
 
-      <h2>Find recommendations</h2>
-      <p><em>Placeholder — gear lookup is not wired up yet.</em></p>
-      <form>
-        <div>
-          <label for="profession">Profession</label>
-          <select id="profession" disabled>
-            <option>Placeholder — profession list</option>
-            <option>Guardian</option>
-            <option>Revenant</option>
-            <option>Warrior</option>
-            <option>Engineer</option>
-            <option>Ranger</option>
-            <option>Thief</option>
-            <option>Elementalist</option>
-            <option>Mesmer</option>
-            <option>Necromancer</option>
-          </select>
+      <section class="mt-5">
+        <h2>Recommended gear (database)</h2>
+        <p><em>Placeholder — no real gear recommendations are loaded yet. Example shape of stored rows:</em></p>
+        <div class="table-responsive">
+          <table class="table table-hover mist-table">
+            <thead>
+              <tr>
+                <th>Slot</th>
+                <th>Item</th>
+                <th>Why</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><em>Placeholder slot</em></td>
+                <td><em>Placeholder item</em></td>
+                <td><em>Placeholder reason</em></td>
+              </tr>
+              <tr>
+                <td><em>Placeholder slot</em></td>
+                <td><em>Placeholder item</em></td>
+                <td><em>Placeholder reason</em></td>
+              </tr>
+            </tbody>
+          </table>
         </div>
-        <div>
-          <label for="role">Role</label>
-          <select id="role" disabled>
-            <option>Placeholder — role list</option>
-            <option>DPS</option>
-            <option>Healer</option>
-            <option>Support / Quickness</option>
-            <option>Support / Alacrity</option>
-            <option>Tank</option>
-          </select>
+      </section>
+
+      <section class="mt-5">
+        <h2>Item details from Guild Wars 2 API</h2>
+        <p>
+          <em>Placeholder — Guild Wars 2 API is not connected yet.</em>
+          Item icons, descriptions, and stats will later be fetched from
+          <code>https://api.guildwars2.com</code>.
+        </p>
+        <div class="api-panel">
+          <div id="picture" class="picture-box">
+            <img src="gear-icon.png" alt="Sigil and relic icon" />
+          </div>
+          <div id="api-item">
+            <div><em>Placeholder — item name</em></div>
+            <div><em>Placeholder — item stats</em></div>
+            <div><em>Placeholder — API response</em></div>
+          </div>
         </div>
-        <div>
-          <label for="fight">Fight</label>
-          <select id="fight" disabled>
-            <option>Placeholder — fight list</option>
-            <optgroup label="Fractals">
-              <option>General Fractals</option>
-              <option>Nightmare — Ensolyss</option>
-              <option>Shattered Observatory — Arkk</option>
-              <option>Sunqua Peak — Ai</option>
-              <option>Silent Surf — Kanaxai</option>
-              <option>Lonely Tower — Dagda</option>
-              <option>Captain Mai Trin Boss</option>
-              <option>Molten Boss</option>
-            </optgroup>
-            <optgroup label="Raids">
-              <option>Spirit Vale — Vale Guardian</option>
-              <option>Spirit Vale — Gorseval</option>
-              <option>Spirit Vale — Sabetha</option>
-              <option>Salvation Pass — Slothasor</option>
-              <option>Salvation Pass — Bandit Trio</option>
-              <option>Salvation Pass — Matthias</option>
-              <option>Stronghold of the Faithful — Escort</option>
-              <option>Stronghold of the Faithful — Keep Construct</option>
-              <option>Stronghold of the Faithful — Xera</option>
-              <option>Bastion of the Penitent — Cairn</option>
-              <option>Bastion of the Penitent — Mursaat Overseer</option>
-              <option>Bastion of the Penitent — Samarog</option>
-              <option>Bastion of the Penitent — Deimos</option>
-              <option>Hall of Chains — Soulless Horror</option>
-              <option>Hall of Chains — River of Souls</option>
-              <option>Hall of Chains — Statues of Grenth</option>
-              <option>Hall of Chains — Dhuum</option>
-              <option>Mythwright Gambit — Conjured Amalgamate</option>
-              <option>Mythwright Gambit — Twin Largos</option>
-              <option>Mythwright Gambit — Qadim</option>
-              <option>The Key of Ahdashim — Gate</option>
-              <option>The Key of Ahdashim — Cardinal Adina</option>
-              <option>The Key of Ahdashim — Cardinal Sabir</option>
-              <option>The Key of Ahdashim — Qadim the Peerless</option>
-              <option>Mount Balrior — Greer</option>
-              <option>Mount Balrior — Decima</option>
-              <option>Mount Balrior — Ura</option>
-            </optgroup>
-          </select>
-        </div>
-        <button type="submit" disabled>Show gear (placeholder)</button>
-      </form>
-
-      <br />
-
-      <h2>Recommended gear (database)</h2>
-      <p><em>Placeholder — no real gear recommendations are loaded yet. Example shape of stored rows:</em></p>
-      <table>
-        <thead>
-          <tr>
-            <th>Slot</th>
-            <th>Item</th>
-            <th>Why</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><em>Placeholder slot</em></td>
-            <td><em>Placeholder item</em></td>
-            <td><em>Placeholder reason</em></td>
-          </tr>
-          <tr>
-            <td><em>Placeholder slot</em></td>
-            <td><em>Placeholder item</em></td>
-            <td><em>Placeholder reason</em></td>
-          </tr>
-        </tbody>
-      </table>
-
-      <br />
-
-      <h2>Item details from Guild Wars 2 API</h2>
-      <p>
-        <em>Placeholder — Guild Wars 2 API is not connected yet.</em>
-        Item icons, descriptions, and stats will later be fetched from
-        <code>https://api.guildwars2.com</code>.
-      </p>
-      <div id="picture" class="picture-box">
-        <img width="200" src="gear-icon.png" alt="Sigil and relic icon" />
-      </div>
-      <div id="api-item">
-        <div><em>Placeholder — item name</em></div>
-        <div><em>Placeholder — item stats</em></div>
-        <div><em>Placeholder — API response</em></div>
-      </div>
+      </section>
     </main>
 
-    <footer>
-      <hr />
-      <span class="text-reset">Thryphore</span>
-      <br />
-      <a href="https://github.com/Thryphore">GitHub</a>
+    <footer class="site-footer">
+      <div class="container footer-inner">
+        <span class="text-reset">Thryphore</span>
+        <a href="https://github.com/Thryphore">GitHub</a>
+      </div>
     </footer>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+      crossorigin="anonymous"
+    ></script>
   </body>
 </html>
