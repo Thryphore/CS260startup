@@ -51,8 +51,13 @@
               </li>
             </ul>
             <div class="user">
-              <span class="user-label">Username</span>
-              <span class="username"><em>Placeholder — not logged in</em></span>
+              <div class="user-meta">
+                <span class="user-label">Username</span>
+                <span class="username"><em>Placeholder — not logged in</em></span>
+              </div>
+              <button class="btn btn-mist btn-sm" type="button" data-bs-toggle="modal" data-bs-target="#login">
+                Sign in
+              </button>
             </div>
           </div>
         </div>
@@ -198,6 +203,55 @@
         </div>
       </section>
     </main>
+
+    <div class="modal fade" id="login" tabindex="-1" aria-labelledby="login-title" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h2 class="modal-title h4" id="login-title">Sign in</h2>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <p>
+              <em>Placeholder — authentication is not implemented yet.</em>
+              Sign in will later let you submit skips, rate tips, and save gear preferences.
+            </p>
+            <form class="login-form" method="get" action="fractals.html">
+              <div class="mb-3">
+                <label class="form-label" for="email">Email</label>
+                <div class="input-group">
+                  <span class="input-group-text">@</span>
+                  <input
+                    id="email"
+                    class="form-control"
+                    type="text"
+                    placeholder="email (placeholder)"
+                    disabled
+                  />
+                </div>
+              </div>
+              <div class="mb-3">
+                <label class="form-label" for="password">Password</label>
+                <div class="input-group">
+                  <span class="input-group-text">🔒</span>
+                  <input
+                    id="password"
+                    class="form-control"
+                    type="password"
+                    placeholder="password (placeholder)"
+                    disabled
+                  />
+                </div>
+              </div>
+              <div class="login-actions">
+                <button class="btn btn-mist" type="submit" disabled>Login (placeholder)</button>
+                <button class="btn btn-mist-ghost" type="submit" disabled>Create (placeholder)</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <footer class="site-footer">
       <div class="container footer-inner">

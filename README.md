@@ -80,7 +80,7 @@ For this deliverable I did the following. I checked the box `[x]` and added a de
 - [x] **Visually appealing colors and layout. No overflowing elements.** - Dark mist palette (navy, crystal teal, sparse gold), open spacing, and images and tables that stay inside the page.
 - [x] **Use of a CSS framework** - Bootstrap 5 for the navbar, cards, forms, tables, and buttons, with `styles.css` for the fractal mists theme.
 - [x] **All visual elements styled using CSS** - Navigation, type, images, forms, tables, lists, and footer are styled in `styles.css`.
-- [x] **Responsive to window resizing using flexbox and/or grid display** - Header, footer, and the gear API panel use flexbox. Home feature cards and the login split use CSS grid. The nav collapses on small screens.
+- [x] **Responsive to window resizing using flexbox and/or grid display** - Header, footer, and the gear API panel use flexbox. Home feature cards use CSS grid. The nav collapses on small screens.
 - [x] **Use of a imported font** - Cormorant Garamond for headings and Outfit for body text, loaded from Google Fonts.
 - [x] **Use of different types of selectors including element, class, ID, and pseudo selectors** - Element rules for type and tables, class rules for layout, `#picture` and `#api-item` for the gear API panel, and `:hover`, `:focus-visible`, `:disabled`, and `::placeholder` for interaction states.
 
