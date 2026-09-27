@@ -162,6 +162,25 @@ main {
   color: var(--mist-text);
 }
 
+.page-intro {
+  position: relative;
+  isolation: isolate;
+  min-height: 20rem;
+  padding-block: 1.25rem 2rem;
+}
+
+.page-intro::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  top: -1.5rem;
+  bottom: 0;
+  left: -1.5rem;
+  width: min(54rem, calc(100% + 1.5rem));
+  background: linear-gradient(90deg, rgba(11, 18, 24, 0.94) 0 36rem, rgba(11, 18, 24, 0.9) 42rem, transparent 54rem);
+  pointer-events: none;
+}
+
 .page-intro h1::after {
   content: "";
   display: block;
@@ -177,17 +196,39 @@ main {
 }
 
 .hero-frame {
-  margin: 1.75rem 0 0.5rem;
+  position: absolute;
+  z-index: -2;
+  top: -1.5rem;
+  bottom: -1.75rem;
+  left: 50%;
+  width: 100vw;
+  max-width: none;
+  margin: 0;
+  transform: translateX(-50%);
+  overflow: hidden;
+  pointer-events: none;
 }
 
 .hero-frame img {
-  display: block;
-  width: 100%;
-  height: 16rem;
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: min(56rem, 70vw);
+  max-width: none;
+  height: 100%;
   object-fit: cover;
-  object-position: center;
-  border: 1px solid var(--mist-line);
-  border-radius: 0.85rem;
+  object-position: center 40%;
+  border: 0;
+  border-radius: 0;
+  -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 18%, #000 84%, transparent 100%);
+  mask-image: linear-gradient(90deg, transparent 0%, #000 18%, #000 84%, transparent 100%);
+}
+
+.hero-frame::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(11, 18, 24, 0.4) 0%, transparent 18%, transparent 48%, var(--mist-bg) 100%);
 }
 
 .feature-grid {
@@ -450,6 +491,27 @@ td {
   .user {
     margin-top: 0.85rem;
     padding-bottom: 0.85rem;
+  }
+}
+
+@media (max-width: 767.98px) {
+  .page-intro {
+    min-height: 0;
+    padding-block: 0.25rem 0.5rem;
+  }
+
+  .page-intro::before {
+    right: -1.5rem;
+    width: auto;
+    background: linear-gradient(180deg, rgba(11, 18, 24, 0.8) 0%, rgba(11, 18, 24, 0.86) 78%, transparent 100%);
+  }
+
+  .hero-frame img {
+    width: 100%;
+    opacity: 0.5;
+    object-position: center;
+    -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 14%, #000 70%, transparent 100%);
+    mask-image: linear-gradient(180deg, transparent 0%, #000 14%, #000 70%, transparent 100%);
   }
 }
 
