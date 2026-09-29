@@ -24,8 +24,13 @@
       <nav class="navbar navbar-expand-lg">
         <div class="container">
           <a class="navbar-brand" href="index.html">
-            <img class="brand-icon" src="favicon.svg" alt="" />
-            Fractal Skip Hub
+            <span class="brand-mark" aria-hidden="true">
+              <img class="brand-icon" src="favicon.svg" alt="" />
+            </span>
+            <span class="brand-text">
+              <span class="brand-kicker">Guild Wars 2</span>
+              <span class="brand-name">Fractal Skip Hub</span>
+            </span>
           </a>
           <button
             class="navbar-toggler"
@@ -51,11 +56,13 @@
               </li>
             </ul>
             <div class="user">
-              <div class="user-meta">
-                <span class="user-label">Username</span>
-                <span class="username"><em>Placeholder — not logged in</em></span>
+              <div class="user-chip">
+                <div class="user-meta">
+                  <span class="user-label">Username</span>
+                  <span class="username"><em>Placeholder — not logged in</em></span>
+                </div>
               </div>
-              <button class="btn btn-mist btn-sm" type="button" data-bs-toggle="modal" data-bs-target="#login">
+              <button class="btn btn-mist btn-sm btn-signin" type="button" data-bs-toggle="modal" data-bs-target="#login">
                 Sign in
               </button>
             </div>
