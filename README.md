@@ -74,15 +74,15 @@ For this deliverable I did the following. I checked the box `[x]` and added a de
 
 ## 🚀 CSS deliverable
 
-For this deliverable I did the following. I checked the box `[x]` and added a description for things I completed.
+For this deliverable I properly styled the application into its final appearance. Shared styles live in `styles.css` and are used by `index.html`, `fractals.html`, and `gear.html`.
 
-- [ ] I completed the prerequisites for this deliverable (Simon deployed, GitHub link, Git commits)
-- [x] **Visually appealing colors and layout. No overflowing elements.** - Dark mist palette (navy, crystal teal, sparse gold), open spacing, and images and tables that stay inside the page.
-- [x] **Use of a CSS framework** - Bootstrap 5 for the navbar, cards, forms, tables, and buttons, with `styles.css` for the fractal mists theme.
-- [x] **All visual elements styled using CSS** - Navigation, type, images, forms, tables, lists, and footer are styled in `styles.css`.
-- [x] **Responsive to window resizing using flexbox and/or grid display** - Header, footer, and the gear API panel use flexbox. Home feature cards use CSS grid. The nav collapses on small screens.
-- [x] **Use of a imported font** - Cormorant Garamond for headings and Outfit for body text, loaded from Google Fonts.
-- [x] **Use of different types of selectors including element, class, ID, and pseudo selectors** - Element rules for type and tables, class rules for layout, `#picture` and `#api-item` for the gear API panel, and `:hover`, `:focus-visible`, `:disabled`, and `::placeholder` for interaction states.
+- [x] I completed the prerequisites for this deliverable (Simon deployed at [simon.cs260.click](https://simon.cs260.click), GitHub link in the site footer, Git commits for this work)
+- [x] **Visually appealing colors and layout. No overflowing elements.** - Dark Fractal Mists theme with navy backgrounds, crystal teal accents, and sparse gold highlights defined as CSS variables in `styles.css`. Open spacing, constrained image/table widths, and consistent panels so nothing overflows on desktop or mobile.
+- [x] **Use of a CSS framework** - Bootstrap 5 (CDN) for the navbar, collapse menu, cards, forms, tables, buttons, and login modal. Custom theme overrides in `styles.css` keep the Bootstrap components matching the mists look.
+- [x] **All visual elements styled using CSS** - Header/brand, navigation, hero images, feature cards, forms, tables, live-update list, gear API panel, login modal, and footer are all styled through Bootstrap classes plus `styles.css` (no unstyled default browser look).
+- [x] **Responsive to window resizing using flexbox and/or grid display** - `body` is a flex column so the footer stays at the bottom. Navbar brand, user chip, and footer use flexbox. Home feature cards and the gear `#api-item` panel use CSS grid. Bootstrap `navbar-expand-lg` collapses the nav on small screens; hero images scale with `max-width: 100%`.
+- [x] **Use of a imported font** - Google Fonts: Cormorant Garamond for headings/brand and Outfit for body text, linked in every HTML page head.
+- [x] **Use of different types of selectors including element, class, ID, and pseudo selectors** - Element selectors for `body`, headings, links, and tables; class selectors for layout (`.site-header`, `.feature-card`, `.btn-mist`, etc.); ID selectors `#picture` and `#api-item` on the Gear page API panel; pseudo selectors `:hover`, `:focus-visible`, `:disabled`, and `::placeholder` for interactive states.
 
 ## 🚀 React part 1: Routing deliverable
 
