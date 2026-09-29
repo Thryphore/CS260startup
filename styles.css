@@ -108,9 +108,14 @@ main {
   box-shadow:
     inset 0 -1px 0 transparent,
     0 1px 0 rgba(212, 177, 90, 0);
-  animation: header-glass linear both;
-  animation-timeline: scroll(root);
-  animation-range: 0 9rem;
+}
+
+@supports (animation-timeline: scroll()) {
+  .site-header {
+    animation: header-glass linear both;
+    animation-timeline: scroll(root);
+    animation-range: 0 9rem;
+  }
 }
 
 .site-header::after {
@@ -458,6 +463,15 @@ main {
   font-family: "Cormorant Garamond", Georgia, serif;
 }
 
+#login-title {
+  font-size: clamp(1.45rem, 2.4vw, 1.75rem);
+  line-height: 1.2;
+}
+
+.feature-card .card-title {
+  font-size: clamp(1.35rem, 2vw, 1.6rem);
+}
+
 .modal-body p {
   max-width: none;
 }
@@ -602,19 +616,19 @@ td {
   margin-top: 1rem;
 }
 
-#picture {
+.api-picture-box {
   padding: 0.85rem;
   border: 1px solid var(--mist-line);
   border-radius: 0.85rem;
   background: var(--mist-surface);
 }
 
-#picture img {
+.api-picture-box img {
   display: block;
   width: min(12.5rem, 100%);
 }
 
-#api-item {
+.api-item {
   display: grid;
   gap: 0.4rem;
   flex: 1 1 16rem;
