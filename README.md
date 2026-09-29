@@ -76,7 +76,7 @@ For this deliverable I did the following. I checked the box `[x]` and added a de
 
 For this deliverable I did the following. I checked the box `[x]` and added a description for things I completed.
 
-- [ ] I completed the prerequisites for this deliverable (Simon deployed, GitHub link, Git commits)
+- [x] I completed the prerequisites for this deliverable (Simon deployed, GitHub link, Git commits)
 - [x] **Visually appealing colors and layout. No overflowing elements.** - Dark mist palette (navy, crystal teal, sparse gold), open spacing, and images and tables that stay inside the page.
 - [x] **Use of a CSS framework** - Bootstrap 5 for the navbar, cards, forms, tables, and buttons, with `styles.css` for the fractal mists theme.
 - [x] **All visual elements styled using CSS** - Navigation, type, images, forms, tables, lists, and footer are styled in `styles.css`.
