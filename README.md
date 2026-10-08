@@ -88,10 +88,10 @@ For this deliverable I properly styled the application into its final appearance
 
 For this deliverable I did the following. I checked the box `[x]` and added a description for things I completed.
 
-- [ ] I completed the prerequisites for this deliverable (Simon deployed, GitHub link, Git commits)
-- [ ] **Bundled using Vite** - I did not complete this part of the deliverable.
-- [ ] **Components** - I did not complete this part of the deliverable.
-- [ ] **Router** - I did not complete this part of the deliverable.
+- [X] I completed the prerequisites for this deliverable (Simon deployed, GitHub link, Git commits)
+- [x] **Bundled using Vite** - The site is a Vite single-page app. `npm run dev` serves it, and `npm run build` writes the production bundle to `dist`. Deployment uses `deployReact.sh`.
+- [x] **Components** - Shared header, sign-in dialog, and footer live in `src/app.jsx`. Page content is in `src/home/home.jsx`, `src/fractals/fractals.jsx`, and `src/gear/gear.jsx`. Sign in and the login buttons use React Bootstrap.
+- [x] **Router** - React Router swaps Home (`/`), Fractal Skips (`/fractals`), and Gear (`/gear`) without a full page load. Unknown paths show a not-found view.
 
 ## 🚀 React part 2: Reactivity deliverable
 

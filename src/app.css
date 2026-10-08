@@ -37,6 +37,13 @@ body {
   background-repeat: no-repeat;
 }
 
+#root {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  width: 100%;
+}
+
 h1,
 h2,
 h3,
