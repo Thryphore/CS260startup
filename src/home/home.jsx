@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import welcomeImg from '../assets/welcome.png';
+import welcomeImg from '@/assets/welcome.png';
 
 export function Home() {
   return (

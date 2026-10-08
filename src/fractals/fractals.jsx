@@ -1,4 +1,4 @@
-import fractalsImg from '../assets/fractals.png';
+import fractalsImg from '@/assets/fractals.png';
 
 export function Fractals() {
   return (

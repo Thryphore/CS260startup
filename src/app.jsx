@@ -1,24 +1,25 @@
-import React from 'react';
+import { useContext } from 'react';
 import {
   createBrowserRouter,
   NavLink,
   Outlet,
   RouterProvider,
-  useLocation,
   useMatches,
 } from 'react-router-dom';
+import SelectableContext from '@restart/ui/SelectableContext';
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
+import NavbarContext from 'react-bootstrap/esm/NavbarContext';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import './app.css';
-import brandIcon from './assets/favicon.svg';
-import { Home } from './home/home';
-import { Fractals } from './fractals/fractals';
-import { Gear } from './gear/gear';
-import { LoginModal } from './login/LoginModal';
-import { NotFound } from './notfound/NotFound';
-import { useDocumentTitle } from './useDocumentTitle';
+import '@/app.css';
+import brandIcon from '@/assets/favicon.svg';
+import { Home } from '@/home/Home';
+import { Fractals } from '@/fractals/Fractals';
+import { Gear } from '@/gear/Gear';
+import { LoginModal } from '@/login/LoginModal';
+import { NotFound } from '@/notfound/NotFound';
+import { useDocumentTitle } from '@/useDocumentTitle';
 
 const router = createBrowserRouter([
   {
@@ -70,17 +71,10 @@ function DocumentTitle() {
 }
 
 function SiteNav() {
-  const [navOpen, setNavOpen] = React.useState(false);
-  const { pathname } = useLocation();
-
-  React.useEffect(() => {
-    setNavOpen(false);
-  }, [pathname]);
-
   return (
-    <Navbar expand="lg" variant="" expanded={navOpen} onToggle={setNavOpen} collapseOnSelect>
+    <Navbar expand="lg" variant="" collapseOnSelect>
       <Container>
-        <Navbar.Brand as={NavLink} to="/" end>
+        <BrandLink>
           <span className="brand-mark" aria-hidden="true">
             <img className="brand-icon" src={brandIcon} alt="" />
           </span>
@@ -88,22 +82,22 @@ function SiteNav() {
             <span className="brand-kicker">Guild Wars 2</span>
             <span className="brand-name">Fractal Skip Hub</span>
           </span>
-        </Navbar.Brand>
-        <Navbar.Toggle aria-controls="site-nav" aria-expanded={navOpen} />
+        </BrandLink>
+        <MenuToggle />
         <Navbar.Collapse id="site-nav">
           <Nav className="me-auto" as="ul">
             <Nav.Item as="li">
-              <Nav.Link as={NavLink} to="/" end>
+              <Nav.Link as={NavLink} to="/" end eventKey="home">
                 Home
               </Nav.Link>
             </Nav.Item>
             <Nav.Item as="li">
-              <Nav.Link as={NavLink} to="/fractals">
+              <Nav.Link as={NavLink} to="/fractals" eventKey="fractals">
                 Fractal Skips
               </Nav.Link>
             </Nav.Item>
             <Nav.Item as="li">
-              <Nav.Link as={NavLink} to="/gear">
+              <Nav.Link as={NavLink} to="/gear" eventKey="gear">
                 Gear
               </Nav.Link>
             </Nav.Item>
@@ -123,4 +117,27 @@ function SiteNav() {
       </Container>
     </Navbar>
   );
+}
+
+function BrandLink({ children }) {
+  const onSelect = useContext(SelectableContext);
+
+  return (
+    <Navbar.Brand
+      as={NavLink}
+      to="/"
+      end
+      onClick={(event) => {
+        onSelect?.('brand', event);
+      }}
+    >
+      {children}
+    </Navbar.Brand>
+  );
+}
+
+function MenuToggle() {
+  const { expanded } = useContext(NavbarContext) || {};
+
+  return <Navbar.Toggle aria-controls="site-nav" aria-expanded={!!expanded} />;
 }

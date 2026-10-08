@@ -1,5 +1,5 @@
-import gearImg from '../assets/gear.png';
-import gearIcon from '../assets/gear-icon.png';
+import gearImg from '@/assets/gear.png';
+import gearIcon from '@/assets/gear-icon.png';
 
 export function Gear() {
   return (
