@@ -273,7 +273,7 @@ main {
 
 .navbar .nav-link.active {
   color: #102028;
-  background: linear-gradient(135deg, var(--mist-accent) 0%, #b7dce8 55%, var(--mist-gold) 140%);
+  background: linear-gradient(135deg, var(--mist-accent) 0%, #b7dce8 42%, #4e555c 100%);
   box-shadow: 0 0 16px rgba(142, 207, 230, 0.18);
 }
 

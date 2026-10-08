@@ -90,7 +90,7 @@ For this deliverable I did the following. I checked the box `[x]` and added a de
 
 - [X] I completed the prerequisites for this deliverable (Simon deployed, GitHub link, Git commits)
 - [x] **Bundled using Vite** - The site is a Vite single-page app. `npm run dev` serves it, and `npm run build` writes the production bundle to `dist`. Deployment uses `deployReact.sh`.
-- [x] **Components** - Shared header and footer live in `src/app.jsx`. The sign-in dialog is `src/login/LoginModal.jsx`. Page content is in `src/home/Home.jsx`, `src/fractals/Fractals.jsx`, `src/gear/Gear.jsx`, and `src/notfound/NotFound.jsx`. The navbar and sign-in controls use React Bootstrap.
+- [x] **Components** - The router lives in `src/app.jsx`. Header, page outlet, and footer are `src/components/AppLayout.jsx`, and the navbar is `src/components/SiteNav.jsx`. The sign-in dialog is `src/login/LoginModal.jsx`. Page content is in `src/home/Home.jsx`, `src/fractals/Fractals.jsx`, `src/gear/Gear.jsx`, and `src/notfound/NotFound.jsx`. The navbar and sign-in controls use React Bootstrap.
 - [x] **Router** - React Router swaps Home (`/`), Fractal Skips (`/fractals`), and Gear (`/gear`) without a full page load. Unknown paths show a not-found view.
 
 ## 🚀 React part 2: Reactivity deliverable
