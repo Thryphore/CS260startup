@@ -13,7 +13,7 @@ export function AppLayout() {
       <footer className="site-footer">
         <div className="container">
           <div className="footer-inner">
-            <a href="https://github.com/Thryphore">GitHub</a>
+            <a href="https://github.com/Thryphore/CS260startup">GitHub</a>
             <span>
               <span className="footer-label">IGN:</span>Navi.5047
             </span>
