@@ -1,0 +1,31 @@
+{
+  "name": "cs260startup",
+  "version": "1.0.0",
+  "description": "In the newest version, I've added a basic mostly placeholder website.",
+  "main": "index.js",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Thryphore/CS260startup.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/Thryphore/CS260startup/issues"
+  },
+  "homepage": "https://github.com/Thryphore/CS260startup#readme",
+  "dependencies": {
+    "bootstrap": "^5.3.8",
+    "react": "^19.3.0",
+    "react-bootstrap": "^2.10.10",
+    "react-dom": "^19.3.0",
+    "react-router-dom": "^7.18.4",
+    "vite": "^8.3.3"
+  }
+}
