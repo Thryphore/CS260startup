@@ -1,9 +1,6 @@
 import fractalsImg from '../assets/fractals.png';
-import { useDocumentTitle } from '../useDocumentTitle';
 
 export function Fractals() {
-  useDocumentTitle('Fractal Skips');
-
   return (
     <main className="container py-4">
       <section className="page-intro">

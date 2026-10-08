@@ -1,10 +1,7 @@
 import { Link } from 'react-router-dom';
 import welcomeImg from '../assets/welcome.png';
-import { useDocumentTitle } from '../useDocumentTitle';
 
 export function Home() {
-  useDocumentTitle('Fractal Skip Hub');
-
   return (
     <main className="container py-4">
       <section className="page-intro">

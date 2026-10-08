@@ -1,10 +1,7 @@
 import gearImg from '../assets/gear.png';
 import gearIcon from '../assets/gear-icon.png';
-import { useDocumentTitle } from '../useDocumentTitle';
 
 export function Gear() {
-  useDocumentTitle('Gear Recommendations');
-
   return (
     <main className="container py-4">
       <section className="page-intro">
