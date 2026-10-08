@@ -1,9 +1,9 @@
-import React from 'react';
+import gearImg from '../assets/gear.png';
+import gearIcon from '../assets/gear-icon.png';
+import { useDocumentTitle } from '../useDocumentTitle';
 
 export function Gear() {
-  React.useEffect(() => {
-    document.title = 'Gear Recommendations';
-  }, []);
+  useDocumentTitle('Gear Recommendations');
 
   return (
     <main className="container py-4">
@@ -15,7 +15,7 @@ export function Gear() {
           database. Item details will later come from the Guild Wars 2 API.
         </p>
         <figure className="hero-frame">
-          <img src="/gear.png" alt="Sigils and relics on a forge altar" />
+          <img src={gearImg} alt="Sigils and relics on a forge altar" />
         </figure>
       </section>
 
@@ -159,7 +159,7 @@ export function Gear() {
         </p>
         <div className="api-panel">
           <div className="api-picture-box">
-            <img src="/gear-icon.png" alt="Sigil and relic icon" />
+            <img src={gearIcon} alt="Sigil and relic icon" />
           </div>
           <div className="api-item">
             <div>

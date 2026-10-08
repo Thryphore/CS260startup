@@ -1,10 +1,9 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
+import welcomeImg from '../assets/welcome.png';
+import { useDocumentTitle } from '../useDocumentTitle';
 
 export function Home() {
-  React.useEffect(() => {
-    document.title = 'Fractal Skip Hub';
-  }, []);
+  useDocumentTitle('Fractal Skip Hub');
 
   return (
     <main className="container py-4">
@@ -20,7 +19,7 @@ export function Home() {
           sigils and relics for fractals and raids based on your profession and role.
         </p>
         <figure className="hero-frame">
-          <img src="/welcome.png" alt="Misty fractal sanctuary observatory" />
+          <img src={welcomeImg} alt="Misty fractal sanctuary observatory" />
         </figure>
       </section>
 

@@ -1,9 +1,8 @@
-import React from 'react';
+import fractalsImg from '../assets/fractals.png';
+import { useDocumentTitle } from '../useDocumentTitle';
 
 export function Fractals() {
-  React.useEffect(() => {
-    document.title = 'Fractal Skips';
-  }, []);
+  useDocumentTitle('Fractal Skips');
 
   return (
     <main className="container py-4">
@@ -15,7 +14,7 @@ export function Fractals() {
           submit new strategies.
         </p>
         <figure className="hero-frame">
-          <img src="/fractals.png" alt="Crystalline fractal platforms over mist" />
+          <img src={fractalsImg} alt="Crystalline fractal platforms over mist" />
         </figure>
       </section>
 
