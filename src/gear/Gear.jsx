@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import gearImg from '@/assets/gear.png';
 import gearIcon from '@/assets/gear-icon.png';
+import { CHEAT_SHEET_INTRO, CHEAT_SHEET_ROWS } from '@/data/cheatSheet';
 import {
   FRACTAL_GEAR,
   PROFESSIONS,
@@ -72,8 +73,7 @@ export function Gear() {
       <section className="page-intro">
         <h1>Sigils &amp; Relics</h1>
         <p className="intro">
-          Pick your profession, role, and fight to see recommended sigils and
-          potions for fractals. Recommendations follow the{' '}
+          Fractal sigil and potion recommendations for power builds, based on the{' '}
           <a
             href="https://archive.discretize.eu/guides/cheat-sheet/"
             target="_blank"
@@ -81,7 +81,7 @@ export function Gear() {
           >
             Discretize cheat sheet
           </a>
-          . Item details are mocked in the shape of the Guild Wars 2 API.
+          . Scroll down to filter by profession, role, and fight.
         </p>
         <figure className="hero-frame">
           <img src={gearImg} alt="Sigils and relics on a forge altar" />
@@ -98,7 +98,38 @@ export function Gear() {
       )}
 
       <section className="mt-5">
-        <h2>Find recommendations</h2>
+        <h2>General Suggestions</h2>
+        <p>{CHEAT_SHEET_INTRO}</p>
+        <div className="table-responsive mt-3">
+          <table className="table table-hover mist-table">
+            <thead>
+              <tr>
+                <th>Fractal</th>
+                <th>Day/Night</th>
+                <th>Sigil &amp; Potion</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              {CHEAT_SHEET_ROWS.map((row) => (
+                <tr key={row.fractal}>
+                  <td>{row.fractal}</td>
+                  <td>{row.dayNight}</td>
+                  <td>{row.sigilPotion}</td>
+                  <td>{row.description}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section className="mt-5">
+        <h2>Find Specific Recommendations</h2>
+        <p>
+          Pick your profession, role, and fight for a tailored slot breakdown.
+          Item details below use a mocked Guild Wars 2 API response shape.
+        </p>
         <form className="lookup-form panel" onSubmit={handleLookup}>
           <div className="mb-3">
             <label className="form-label" htmlFor="profession">
@@ -159,17 +190,14 @@ export function Gear() {
             Show gear
           </button>
         </form>
-      </section>
 
-      <section className="mt-5">
-        <h2>Recommended gear</h2>
         {!recommendation && (
-          <p>
+          <p className="mt-3">
             <em>Choose a fight above and click Show gear.</em>
           </p>
         )}
         {recommendation && (
-          <>
+          <div className="mt-4">
             <p>
               {recommendation.profession} · {recommendation.role} · {recommendation.fight}{' '}
               ({recommendation.dayNight})
@@ -195,7 +223,7 @@ export function Gear() {
                 </tbody>
               </table>
             </div>
-          </>
+          </div>
         )}
       </section>
 
@@ -203,8 +231,8 @@ export function Gear() {
         <h2>Item details from Guild Wars 2 API</h2>
         <p>
           Hard-coded response shaped like{' '}
-          <code>https://api.guildwars2.com/v2/items</code>. Run a lookup to load
-          the primary sigil.
+          <code>https://api.guildwars2.com/v2/items</code>. Run a lookup above to
+          load the primary sigil.
         </p>
         <div className="api-panel">
           <div className="api-picture-box">
@@ -218,11 +246,9 @@ export function Gear() {
           </div>
           <div className="api-item">
             {!apiItem && (
-              <>
-                <div>
-                  <em>Run Show gear to load a mocked API item</em>
-                </div>
-              </>
+              <div>
+                <em>Run Show gear to load a mocked API item</em>
+              </div>
             )}
             {apiItem && (
               <>
