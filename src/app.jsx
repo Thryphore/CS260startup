@@ -1,6 +1,7 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '@/app.css';
+import { AuthProvider } from '@/auth/AuthContext';
 import { AppLayout } from '@/components/AppLayout';
 import { Home } from '@/home/Home';
 import { Fractals } from '@/fractals/Fractals';
@@ -20,5 +21,9 @@ const router = createBrowserRouter([
 ]);
 
 export default function App() {
-  return <RouterProvider router={router} />;
+  return (
+    <AuthProvider>
+      <RouterProvider router={router} />
+    </AuthProvider>
+  );
 }

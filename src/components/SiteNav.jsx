@@ -6,8 +6,11 @@ import Navbar from 'react-bootstrap/Navbar';
 import NavbarContext from 'react-bootstrap/esm/NavbarContext';
 import brandIcon from '@/assets/favicon.svg';
 import { LoginModal } from '@/login/LoginModal';
+import { useAuth } from '@/auth/AuthContext';
 
 export function SiteNav() {
+  const { user } = useAuth();
+
   return (
     <Navbar expand="lg" variant="" collapseOnSelect>
       <Container>
@@ -44,7 +47,7 @@ export function SiteNav() {
               <div className="user-meta">
                 <span className="user-label">Username</span>
                 <span className="username">
-                  <em>Placeholder — not logged in</em>
+                  {user ? user.username : <em>Not logged in</em>}
                 </span>
               </div>
             </div>

@@ -584,6 +584,46 @@ button:disabled,
   border-top: 0;
 }
 
+.live-time {
+  color: var(--mist-accent);
+  font-size: 0.85rem;
+  margin-right: 0.5rem;
+}
+
+.form-feedback {
+  max-width: 36rem;
+  margin-bottom: 0.75rem;
+}
+
+.form-feedback-error {
+  color: #e8a0a0;
+}
+
+.form-feedback-ok {
+  color: var(--mist-accent);
+}
+
+.skip-notes {
+  margin-top: 0.35rem;
+  font-size: 0.92rem;
+  color: var(--mist-muted);
+  max-width: 28rem;
+}
+
+.daily-banner {
+  color: var(--mist-text);
+  max-width: 42rem;
+}
+
+.gear-notes {
+  color: var(--mist-muted);
+}
+
+.api-source {
+  font-size: 0.85rem;
+  color: var(--mist-gold);
+}
+
 .mist-table {
   margin-bottom: 0;
   --bs-table-bg: transparent;

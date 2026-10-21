@@ -1,9 +1,65 @@
 import React from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
+import { useAuth } from '@/auth/AuthContext';
 
 export function LoginModal() {
+  const { user, login, createAccount, logout } = useAuth();
   const [show, setShow] = React.useState(false);
+  const [email, setEmail] = React.useState('');
+  const [password, setPassword] = React.useState('');
+  const [error, setError] = React.useState('');
+  const [message, setMessage] = React.useState('');
+
+  function resetForm() {
+    setEmail('');
+    setPassword('');
+    setError('');
+    setMessage('');
+  }
+
+  function handleClose() {
+    setShow(false);
+    resetForm();
+  }
+
+  function handleLogin(event) {
+    event.preventDefault();
+    const result = login(email, password);
+    if (!result.ok) {
+      setError(result.error);
+      setMessage('');
+      return;
+    }
+    handleClose();
+  }
+
+  function handleCreate(event) {
+    event.preventDefault();
+    const result = createAccount(email, password);
+    if (!result.ok) {
+      setError(result.error);
+      setMessage('');
+      return;
+    }
+    setMessage(`Welcome, ${result.user.username}! Account created.`);
+    setError('');
+    setTimeout(handleClose, 600);
+  }
+
+  if (user) {
+    return (
+      <Button
+        variant="mist"
+        size="sm"
+        className="btn-signin"
+        type="button"
+        onClick={logout}
+      >
+        Sign out
+      </Button>
+    );
+  }
 
   return (
     <>
@@ -16,7 +72,7 @@ export function LoginModal() {
       >
         Sign in
       </Button>
-      <Modal show={show} onHide={() => setShow(false)} centered aria-labelledby="login-title">
+      <Modal show={show} onHide={handleClose} centered aria-labelledby="login-title">
         <Modal.Header closeButton>
           <Modal.Title as="h2" id="login-title">
             Sign in
@@ -24,10 +80,12 @@ export function LoginModal() {
         </Modal.Header>
         <Modal.Body>
           <p>
-            <em>Placeholder — authentication is not implemented yet.</em> Sign in will later let you
-            submit skips, rate tips, and save gear preferences.
+            Create an account or sign in to submit skips and upvote tips. Credentials are
+            stored in this browser&apos;s localStorage until the database is wired up.
           </p>
-          <form className="login-form" onSubmit={(event) => event.preventDefault()}>
+          {error && <p className="form-feedback form-feedback-error">{error}</p>}
+          {message && <p className="form-feedback form-feedback-ok">{message}</p>}
+          <form className="login-form" onSubmit={handleLogin}>
             <div className="mb-3">
               <label className="form-label" htmlFor="email">
                 Email
@@ -37,9 +95,12 @@ export function LoginModal() {
                 <input
                   id="email"
                   className="form-control"
-                  type="text"
-                  placeholder="email (placeholder)"
-                  disabled
+                  type="email"
+                  autoComplete="username"
+                  placeholder="you@example.com"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
                 />
               </div>
             </div>
@@ -53,17 +114,25 @@ export function LoginModal() {
                   id="password"
                   className="form-control"
                   type="password"
-                  placeholder="password (placeholder)"
-                  disabled
+                  autoComplete="current-password"
+                  placeholder="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
                 />
               </div>
             </div>
             <div className="login-actions">
-              <Button variant="mist" type="submit" disabled>
-                Login (placeholder)
+              <Button variant="mist" type="submit">
+                Login
               </Button>
-              <Button className="btn-mist-ghost" variant="mist-ghost" type="submit" disabled>
-                Create (placeholder)
+              <Button
+                className="btn-mist-ghost"
+                variant="mist-ghost"
+                type="button"
+                onClick={handleCreate}
+              >
+                Create
               </Button>
             </div>
           </form>

@@ -95,11 +95,11 @@ For this deliverable I did the following. I checked the box `[x]` and added a de
 
 ## 🚀 React part 2: Reactivity deliverable
 
-For this deliverable I did the following. I checked the box `[x]` and added a description for things I completed.
+For this deliverable I used JavaScript and React so that the application completely works for a single user. Backend pieces are mocked until later deliverables.
 
-- [ ] I completed the prerequisites for this deliverable (Simon deployed, GitHub link, Git commits)
-- [ ] **All functionality implemented or mocked out** - I did not complete this part of the deliverable.
-- [ ] **Hooks** - I did not complete this part of the deliverable.
+- [x] I completed the prerequisites for this deliverable (Simon deployed, GitHub link, Git commits)
+- [x] **All functionality implemented or mocked out** - Login/create account and session restore via `localStorage` (`src/services/authService.js`, `src/auth/AuthContext.jsx`). Skip list, submissions, and votes persist in `localStorage` (`src/services/skipService.js`) with seed tips in `src/data/defaultSkips.js`. Gear recommendations are hard-coded from the [Discretize cheat sheet](https://archive.discretize.eu/guides/cheat-sheet/) in `src/data/gearRecommendations.js`. Guild Wars 2 API item/daily responses are mocked in `src/services/gw2Api.js`. Live peer activity on Fractal Skips uses `setInterval` in `src/fractals/Fractals.jsx` to stand in for WebSocket messages.
+- [x] **Hooks** - `useState` / `useEffect` drive auth session restore, skip loading, the live feed interval, gear lookup results, and mocked daily fractals on Home and Gear. Auth is shared with `useContext` (`AuthProvider`). Components render based on login state (submit/upvote enabled only when signed in; nav shows username or “Not logged in”).
 
 ## 🚀 Service deliverable
 

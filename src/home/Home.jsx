@@ -1,11 +1,22 @@
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import welcomeImg from '@/assets/welcome.png';
+import { useAuth } from '@/auth/AuthContext';
+import { getDailyFractals } from '@/services/gw2Api';
 
 export function Home() {
+  const { user } = useAuth();
+  const [dailies, setDailies] = useState(null);
+
+  useEffect(() => {
+    // Mocked third-party daily fractal payload
+    setDailies(getDailyFractals());
+  }, []);
+
   return (
     <main className="container py-4">
       <section className="page-intro">
-        <h1>Welcome</h1>
+        <h1>Welcome{user ? `, ${user.username}` : ''}</h1>
         <p className="intro">
           Fractal Skip Hub is a crowdsourced Guild Wars 2 resource for fractal
           routes and skip strategies. Players share what works, vote on useful
@@ -13,8 +24,13 @@ export function Home() {
         </p>
         <p>
           Looking for fight-specific gear? Use the Gear page to find recommended
-          sigils and relics for fractals and raids based on your profession and role.
+          sigils and potions for fractals based on the Discretize cheat sheet.
         </p>
+        {dailies && (
+          <p className="daily-banner">
+            <strong>Daily fractals (mocked):</strong> {dailies.fractals.join(', ')}
+          </p>
+        )}
         <figure className="hero-frame">
           <img src={welcomeImg} alt="Misty fractal sanctuary observatory" />
         </figure>
@@ -29,8 +45,8 @@ export function Home() {
                 <Link to="/fractals">Fractal Skips</Link>
               </h3>
               <p className="card-text">
-                Browse community skip routes, submit new strategies, and see live
-                updates as tips are posted.
+                Browse community skip routes, submit new strategies when signed in,
+                upvote tips, and watch a live activity feed.
               </p>
             </div>
           </article>
@@ -40,8 +56,8 @@ export function Home() {
                 <Link to="/gear">Gear</Link>
               </h3>
               <p className="card-text">
-                Look up recommended sigils and relics by profession, role, and
-                fight, with item details from the Guild Wars 2 API.
+                Look up recommended sigils and potions by profession, role, and
+                fight, with mocked Guild Wars 2 API item details.
               </p>
             </div>
           </article>
@@ -49,16 +65,13 @@ export function Home() {
       </section>
 
       <section className="mt-5">
-        <h2>How it will work</h2>
+        <h2>How it works right now</h2>
         <p>
-          Authenticated players will submit skip notes tied to a fractal. Everyone
-          else can browse those tips and upvote the ones that actually save time.
-          Daily fractal info and item details will come from the official Guild Wars 2
-          API, and new submissions will show up for connected users over WebSocket
-          without a page refresh.
-        </p>
-        <p>
-          <em>Placeholder note — login, database, API, and live updates are not wired up yet.</em>
+          Sign in stores your account in localStorage. Skip submissions and votes
+          persist in the same browser. Gear recommendations are hard-coded from the
+          Discretize cheat sheet, and the live feed on Fractal Skips uses{' '}
+          <code>setInterval</code> to stand in for WebSocket messages until the
+          backend is ready.
         </p>
       </section>
     </main>

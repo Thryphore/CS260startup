@@ -1,14 +1,101 @@
+import { useEffect, useState } from 'react';
 import fractalsImg from '@/assets/fractals.png';
+import { useAuth } from '@/auth/AuthContext';
+import { FRACTAL_NAMES } from '@/data/fractals';
+import { addSkip, getSkips, upvoteSkip } from '@/services/skipService';
+
+const PEER_ACTIONS = ['submitted a skip for', 'upvoted a tip on', 'shared a route for'];
 
 export function Fractals() {
+  const { user } = useAuth();
+  const [skips, setSkips] = useState([]);
+  const [liveFeed, setLiveFeed] = useState([]);
+  const [fractal, setFractal] = useState(FRACTAL_NAMES[0]);
+  const [title, setTitle] = useState('');
+  const [notes, setNotes] = useState('');
+  const [formMessage, setFormMessage] = useState('');
+  const [formError, setFormError] = useState('');
+  const [voteMessage, setVoteMessage] = useState('');
+
+  useEffect(() => {
+    // Load persisted skips (localStorage until DB exists)
+    setSkips(getSkips());
+  }, []);
+
+  useEffect(() => {
+    // Simulate WebSocket peer activity until a real socket is added
+    const intervalId = setInterval(() => {
+      const peer = `Player-${Math.floor(Math.random() * 100)}`;
+      const action = PEER_ACTIONS[Math.floor(Math.random() * PEER_ACTIONS.length)];
+      const fractalName = FRACTAL_NAMES[Math.floor(Math.random() * FRACTAL_NAMES.length)];
+      const entry = {
+        id: `live-${Date.now()}`,
+        text: `${peer} ${action} ${fractalName}`,
+        at: new Date().toLocaleTimeString(),
+      };
+      setLiveFeed((prev) => [entry, ...prev].slice(0, 8));
+    }, 4000);
+
+    return () => clearInterval(intervalId);
+  }, []);
+
+  function handleSubmit(event) {
+    event.preventDefault();
+    setFormError('');
+    setFormMessage('');
+
+    if (!user) {
+      setFormError('Sign in to submit a skip.');
+      return;
+    }
+    if (!title.trim() || !notes.trim()) {
+      setFormError('Title and notes are required.');
+      return;
+    }
+
+    const skip = addSkip({
+      fractal,
+      title,
+      notes,
+      submittedBy: user.username,
+    });
+    setSkips(getSkips());
+    setLiveFeed((prev) => [
+      {
+        id: `local-${skip.id}`,
+        text: `You submitted a skip for ${skip.fractal}`,
+        at: new Date().toLocaleTimeString(),
+      },
+      ...prev,
+    ].slice(0, 8));
+    setTitle('');
+    setNotes('');
+    setFormMessage('Skip submitted and saved in this browser.');
+  }
+
+  function handleUpvote(skipId) {
+    setVoteMessage('');
+    if (!user) {
+      setVoteMessage('Sign in to upvote skips.');
+      return;
+    }
+    const result = upvoteSkip(skipId, user.username);
+    setSkips(result.skips);
+    if (!result.ok) {
+      setVoteMessage(result.error);
+      return;
+    }
+    setVoteMessage('Vote recorded.');
+  }
+
   return (
     <main className="container py-4">
       <section className="page-intro">
         <h1>Fractal Skips</h1>
         <p className="intro">
           Browse and contribute crowd-sourced skip routes for Mistlock Sanctuary
-          fractals. Tips will load from the database and update live as players
-          submit new strategies.
+          fractals. Tips are stored in localStorage for now and update live as
+          activity appears in the feed below.
         </p>
         <figure className="hero-frame">
           <img src={fractalsImg} alt="Crystalline fractal platforms over mist" />
@@ -18,52 +105,49 @@ export function Fractals() {
       <section className="mt-5">
         <h2>Live updates</h2>
         <p>
-          <em>Placeholder — WebSocket live feed is not connected yet. Example shape of realtime messages:</em>
+          Simulated WebSocket feed — peer messages arrive on an interval until a
+          real socket is connected.
         </p>
         <ul className="notification list-group">
-          <li className="list-group-item">
-            <em>Placeholder user</em> submitted a skip for <em>Placeholder fractal</em>
-          </li>
-          <li className="list-group-item">
-            <em>Placeholder user</em> upvoted <em>Placeholder skip title</em>
-          </li>
+          {liveFeed.length === 0 && (
+            <li className="list-group-item">
+              <em>Waiting for live activity…</em>
+            </li>
+          )}
+          {liveFeed.map((entry) => (
+            <li className="list-group-item" key={entry.id}>
+              <span className="live-time">{entry.at}</span> {entry.text}
+            </li>
+          ))}
         </ul>
       </section>
 
       <section className="mt-5">
         <h2>Submit a skip</h2>
-        <p>
-          <em>Placeholder — submissions are not saved yet.</em>
-        </p>
-        <form className="lookup-form panel" onSubmit={(event) => event.preventDefault()}>
+        {!user && (
+          <p>
+            <em>Sign in to enable the submission form.</em>
+          </p>
+        )}
+        {formError && <p className="form-feedback form-feedback-error">{formError}</p>}
+        {formMessage && <p className="form-feedback form-feedback-ok">{formMessage}</p>}
+        <form className="lookup-form panel" onSubmit={handleSubmit}>
           <div className="mb-3">
             <label className="form-label" htmlFor="fractal">
               Fractal
             </label>
-            <select className="form-select" id="fractal" disabled>
-              <option>Placeholder — fractal list</option>
-              <option>Volcanic</option>
-              <option>Uncategorized</option>
-              <option>Snowblind</option>
-              <option>Urban Battleground</option>
-              <option>Swampland</option>
-              <option>Cliffside</option>
-              <option>Aquatic Ruins</option>
-              <option>Underground Facility</option>
-              <option>Molten Furnace</option>
-              <option>Molten Boss</option>
-              <option>Aetherblade</option>
-              <option>Thaumanova Reactor</option>
-              <option>Solid Ocean</option>
-              <option>Captain Mai Trin Boss</option>
-              <option>Chaos Isles</option>
-              <option>Nightmare</option>
-              <option>Shattered Observatory</option>
-              <option>Twilight Oasis</option>
-              <option>Deepstone</option>
-              <option>Sunqua Peak</option>
-              <option>Silent Surf</option>
-              <option>Lonely Tower</option>
+            <select
+              className="form-select"
+              id="fractal"
+              value={fractal}
+              onChange={(e) => setFractal(e.target.value)}
+              disabled={!user}
+            >
+              {FRACTAL_NAMES.map((name) => (
+                <option key={name} value={name}>
+                  {name}
+                </option>
+              ))}
             </select>
           </div>
           <div className="mb-3">
@@ -74,8 +158,10 @@ export function Fractals() {
               className="form-control"
               type="text"
               id="skip-title"
-              placeholder="Placeholder — skip title"
-              disabled
+              placeholder="Short name for the skip"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              disabled={!user}
             />
           </div>
           <div className="mb-3">
@@ -86,12 +172,14 @@ export function Fractals() {
               className="form-control"
               id="skip-notes"
               rows={4}
-              placeholder="Placeholder — route notes"
-              disabled
+              placeholder="Describe the route, timing, and any gear swaps"
+              value={notes}
+              onChange={(e) => setNotes(e.target.value)}
+              disabled={!user}
             ></textarea>
           </div>
-          <button className="btn btn-mist" type="submit" disabled>
-            Submit skip (placeholder)
+          <button className="btn btn-mist" type="submit" disabled={!user}>
+            Submit skip
           </button>
         </form>
       </section>
@@ -99,8 +187,10 @@ export function Fractals() {
       <section className="mt-5">
         <h2>Skips from the database</h2>
         <p>
-          <em>Placeholder — no real skip data is loaded yet. Example shape of stored rows:</em>
+          Seed tips plus anything you submit are persisted in localStorage (stand-in for
+          the database).
         </p>
+        {voteMessage && <p className="form-feedback">{voteMessage}</p>}
         <div className="table-responsive">
           <table className="table table-hover mist-table">
             <thead>
@@ -109,37 +199,31 @@ export function Fractals() {
                 <th>Skip</th>
                 <th>Submitted by</th>
                 <th>Votes</th>
+                <th></th>
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>
-                  <em>Placeholder fractal</em>
-                </td>
-                <td>
-                  <em>Placeholder skip title</em>
-                </td>
-                <td>
-                  <em>Placeholder user</em>
-                </td>
-                <td>
-                  <em>—</em>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <em>Placeholder fractal</em>
-                </td>
-                <td>
-                  <em>Placeholder skip notes</em>
-                </td>
-                <td>
-                  <em>Placeholder user</em>
-                </td>
-                <td>
-                  <em>—</em>
-                </td>
-              </tr>
+              {skips.map((skip) => (
+                <tr key={skip.id}>
+                  <td>{skip.fractal}</td>
+                  <td>
+                    <strong>{skip.title}</strong>
+                    <div className="skip-notes">{skip.notes}</div>
+                  </td>
+                  <td>{skip.submittedBy}</td>
+                  <td>{skip.votes}</td>
+                  <td>
+                    <button
+                      type="button"
+                      className="btn btn-sm btn-mist-ghost"
+                      onClick={() => handleUpvote(skip.id)}
+                      disabled={!user}
+                    >
+                      Upvote
+                    </button>
+                  </td>
+                </tr>
+              ))}
             </tbody>
           </table>
         </div>
