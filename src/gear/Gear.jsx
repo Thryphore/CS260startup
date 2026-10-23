@@ -46,6 +46,21 @@ const FIGHT_OPTIONS = {
   ],
 };
 
+/** Placeholder for a GW2 item icon — replaced by API icon URLs later. */
+function ApiIconPlaceholder({ name }) {
+  return (
+    <span
+      className="api-icon-placeholder"
+      title={`${name} — icon from Guild Wars 2 API (coming later)`}
+      aria-label={`Icon placeholder for ${name}. Will load from Guild Wars 2 API later.`}
+    >
+      <span className="api-icon-placeholder-label" aria-hidden="true">
+        API
+      </span>
+    </span>
+  );
+}
+
 export function Gear() {
   const [profession, setProfession] = useState(PROFESSIONS[0]);
   const [role, setRole] = useState(ROLES[0]);
@@ -100,6 +115,10 @@ export function Gear() {
       <section className="mt-5">
         <h2>General Suggestions</h2>
         <p>{CHEAT_SHEET_INTRO}</p>
+        <p className="api-icon-note">
+          Item icons are placeholders for now — they will load from{' '}
+          <code>https://api.guildwars2.com/v2/items</code> in a later deliverable.
+        </p>
         <div className="table-responsive mt-3">
           <table className="table table-hover mist-table">
             <thead>
@@ -115,7 +134,16 @@ export function Gear() {
                 <tr key={row.fractal}>
                   <td>{row.fractal}</td>
                   <td>{row.dayNight}</td>
-                  <td>{row.sigilPotion}</td>
+                  <td>
+                    <ul className="item-icon-list">
+                      {row.items.map((itemName) => (
+                        <li key={itemName} className="item-icon-row">
+                          <ApiIconPlaceholder name={itemName} />
+                          <span>{itemName}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </td>
                   <td>{row.description}</td>
                 </tr>
               ))}

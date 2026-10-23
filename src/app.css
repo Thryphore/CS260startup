@@ -619,6 +619,51 @@ button:disabled,
   color: var(--mist-muted);
 }
 
+.api-icon-note {
+  color: var(--mist-muted);
+  font-size: 0.95rem;
+}
+
+.item-icon-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.45rem;
+}
+
+.item-icon-row {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  color: var(--mist-text);
+  font-size: 0.92rem;
+  line-height: 1.3;
+}
+
+.api-icon-placeholder {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  border: 1px dashed var(--mist-line);
+  border-radius: 0.35rem;
+  background:
+    linear-gradient(135deg, rgba(142, 207, 230, 0.08), rgba(212, 177, 90, 0.06)),
+    var(--mist-surface);
+  color: var(--mist-accent);
+}
+
+.api-icon-placeholder-label {
+  font-family: "Outfit", "Segoe UI", sans-serif;
+  font-size: 0.58rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
 .api-source {
   font-size: 0.85rem;
   color: var(--mist-gold);
