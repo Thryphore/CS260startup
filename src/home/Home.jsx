@@ -9,8 +9,13 @@ export function Home() {
   const [dailies, setDailies] = useState(null);
 
   useEffect(() => {
-    // Mocked third-party daily fractal payload
-    setDailies(getDailyFractals());
+    let cancelled = false;
+    getDailyFractals().then((data) => {
+      if (!cancelled) setDailies(data);
+    });
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
   return (
@@ -28,7 +33,8 @@ export function Home() {
         </p>
         {dailies && (
           <p className="daily-banner">
-            <strong>Daily fractals (mocked):</strong> {dailies.fractals.join(', ')}
+            <strong>Daily fractals:</strong>{' '}
+            {dailies.fractals.length ? dailies.fractals.join(', ') : dailies.error}
           </p>
         )}
         <figure className="hero-frame">
@@ -57,7 +63,7 @@ export function Home() {
               </h3>
               <p className="card-text">
                 Look up recommended sigils and potions by profession, role, and
-                fight, with mocked Guild Wars 2 API item details.
+                fight, with item details from the Guild Wars 2 API.
               </p>
             </div>
           </article>
@@ -67,11 +73,12 @@ export function Home() {
       <section className="mt-5">
         <h2>How it works right now</h2>
         <p>
-          Sign in stores your account in localStorage. Skip submissions and votes
-          persist in the same browser. Gear recommendations are hard-coded from the
-          Discretize cheat sheet, and the live feed on Fractal Skips uses{' '}
-          <code>setInterval</code> to stand in for WebSocket messages until the
-          backend is ready.
+          Sign in calls the service, which hashes your password and sets an auth
+          cookie. Skip submissions and votes are stored in service memory. Gear
+          recommendations are hard-coded from the Discretize cheat sheet, daily
+          fractals and item details come from the Guild Wars 2 API, and the live
+          feed on Fractal Skips uses <code>setInterval</code> until WebSocket
+          messages are added.
         </p>
       </section>
     </main>

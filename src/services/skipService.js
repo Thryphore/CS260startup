@@ -1,77 +1,53 @@
 /**
- * Skip persistence via localStorage.
- * Will be replaced with database service calls in a later deliverable.
+ * Skip list calls. The Express service keeps the list in memory.
  */
 
-import { DEFAULT_SKIPS } from '@/data/defaultSkips';
-
-const SKIPS_KEY = 'fsh_skips';
-const VOTES_KEY = 'fsh_votes';
-
-function readSkips() {
+async function readBody(response) {
   try {
-    const stored = localStorage.getItem(SKIPS_KEY);
-    if (!stored) {
-      localStorage.setItem(SKIPS_KEY, JSON.stringify(DEFAULT_SKIPS));
-      return [...DEFAULT_SKIPS];
-    }
-    return JSON.parse(stored);
-  } catch {
-    return [...DEFAULT_SKIPS];
-  }
-}
-
-function writeSkips(skips) {
-  localStorage.setItem(SKIPS_KEY, JSON.stringify(skips));
-}
-
-function readVotes() {
-  try {
-    return JSON.parse(localStorage.getItem(VOTES_KEY) || '{}');
+    return await response.json();
   } catch {
     return {};
   }
 }
 
-function writeVotes(votes) {
-  localStorage.setItem(VOTES_KEY, JSON.stringify(votes));
-}
-
-export function getSkips() {
-  return readSkips().sort((a, b) => b.votes - a.votes);
-}
-
-export function addSkip({ fractal, title, notes, submittedBy }) {
-  const skips = readSkips();
-  const skip = {
-    id: `skip-${Date.now()}-${Math.floor(Math.random() * 1000)}`,
-    fractal,
-    title: title.trim(),
-    notes: notes.trim(),
-    submittedBy,
-    votes: 0,
-  };
-  skips.unshift(skip);
-  writeSkips(skips);
-  return skip;
-}
-
-export function upvoteSkip(skipId, username) {
-  const votes = readVotes();
-  const key = `${username}:${skipId}`;
-  if (votes[key]) {
-    return { ok: false, error: 'You already voted for this skip.', skips: getSkips() };
+export async function getSkips() {
+  const response = await fetch('/api/skips');
+  if (!response.ok) {
+    throw new Error('Could not load skips.');
   }
+  return response.json();
+}
 
-  const skips = readSkips();
-  const index = skips.findIndex((s) => s.id === skipId);
-  if (index === -1) {
-    return { ok: false, error: 'Skip not found.', skips: getSkips() };
+export async function addSkip({ fractal, title, notes }) {
+  try {
+    const response = await fetch('/api/skips', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: JSON.stringify({ fractal, title, notes }),
+    });
+    const body = await readBody(response);
+    if (!response.ok) {
+      return { ok: false, error: body.msg || 'Could not submit skip.', skips: body.skips || [] };
+    }
+    return { ok: true, skips: body };
+  } catch {
+    return { ok: false, error: 'Could not reach the service.', skips: [] };
   }
+}
 
-  skips[index] = { ...skips[index], votes: skips[index].votes + 1 };
-  writeSkips(skips);
-  votes[key] = true;
-  writeVotes(votes);
-  return { ok: true, skips: getSkips() };
+export async function upvoteSkip(skipId) {
+  try {
+    const response = await fetch(`/api/skips/${encodeURIComponent(skipId)}/vote`, {
+      method: 'POST',
+    });
+    const body = await readBody(response);
+    if (!response.ok) {
+      return { ok: false, error: body.msg || 'Could not record vote.', skips: body.skips || [] };
+    }
+    return { ok: true, skips: body.skips };
+  } catch {
+    return { ok: false, error: 'Could not reach the service.', skips: [] };
+  }
 }

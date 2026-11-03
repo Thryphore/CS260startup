@@ -18,8 +18,17 @@ export function Fractals() {
   const [voteMessage, setVoteMessage] = useState('');
 
   useEffect(() => {
-    // Load persisted skips (localStorage until DB exists)
-    setSkips(getSkips());
+    let cancelled = false;
+    getSkips()
+      .then((rows) => {
+        if (!cancelled) setSkips(rows);
+      })
+      .catch(() => {
+        if (!cancelled) setVoteMessage('Could not load skips from the service.');
+      });
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
   useEffect(() => {
@@ -39,7 +48,7 @@ export function Fractals() {
     return () => clearInterval(intervalId);
   }, []);
 
-  function handleSubmit(event) {
+  async function handleSubmit(event) {
     event.preventDefault();
     setFormError('');
     setFormMessage('');
@@ -53,39 +62,35 @@ export function Fractals() {
       return;
     }
 
-    const skip = addSkip({
-      fractal,
-      title,
-      notes,
-      submittedBy: user.username,
-    });
-    setSkips(getSkips());
+    const result = await addSkip({ fractal, title, notes });
+    if (!result.ok) {
+      setFormError(result.error);
+      if (result.skips.length) setSkips(result.skips);
+      return;
+    }
+    setSkips(result.skips);
     setLiveFeed((prev) => [
       {
-        id: `local-${skip.id}`,
-        text: `You submitted a skip for ${skip.fractal}`,
+        id: `local-${Date.now()}`,
+        text: `You submitted a skip for ${fractal}`,
         at: new Date().toLocaleTimeString(),
       },
       ...prev,
     ].slice(0, 8));
     setTitle('');
     setNotes('');
-    setFormMessage('Skip submitted and saved in this browser.');
+    setFormMessage('Skip submitted.');
   }
 
-  function handleUpvote(skipId) {
+  async function handleUpvote(skipId) {
     setVoteMessage('');
     if (!user) {
       setVoteMessage('Sign in to upvote skips.');
       return;
     }
-    const result = upvoteSkip(skipId, user.username);
-    setSkips(result.skips);
-    if (!result.ok) {
-      setVoteMessage(result.error);
-      return;
-    }
-    setVoteMessage('Vote recorded.');
+    const result = await upvoteSkip(skipId);
+    if (result.skips.length) setSkips(result.skips);
+    setVoteMessage(result.ok ? 'Vote recorded.' : result.error);
   }
 
   return (
@@ -94,8 +99,8 @@ export function Fractals() {
         <h1>Fractal Skips</h1>
         <p className="intro">
           Browse and contribute crowd-sourced skip routes for Mistlock Sanctuary
-          fractals. Tips are stored in localStorage for now and update live as
-          activity appears in the feed below.
+          fractals. Tips are loaded from the service and update live as activity
+          appears in the feed below.
         </p>
         <figure className="hero-frame">
           <img src={fractalsImg} alt="Crystalline fractal platforms over mist" />
@@ -187,8 +192,7 @@ export function Fractals() {
       <section className="mt-5">
         <h2>Skips from the database</h2>
         <p>
-          Seed tips plus anything you submit are persisted in localStorage (stand-in for
-          the database).
+          Seed tips plus anything you submit are kept by the service until it restarts.
         </p>
         {voteMessage && <p className="form-feedback">{voteMessage}</p>}
         <div className="table-responsive">

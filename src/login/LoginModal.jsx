@@ -23,9 +23,9 @@ export function LoginModal() {
     resetForm();
   }
 
-  function handleLogin(event) {
+  async function handleLogin(event) {
     event.preventDefault();
-    const result = login(email, password);
+    const result = await login(email, password);
     if (!result.ok) {
       setError(result.error);
       setMessage('');
@@ -34,9 +34,9 @@ export function LoginModal() {
     handleClose();
   }
 
-  function handleCreate(event) {
+  async function handleCreate(event) {
     event.preventDefault();
-    const result = createAccount(email, password);
+    const result = await createAccount(email, password);
     if (!result.ok) {
       setError(result.error);
       setMessage('');
@@ -80,8 +80,8 @@ export function LoginModal() {
         </Modal.Header>
         <Modal.Body>
           <p>
-            Create an account or sign in to submit skips and upvote tips. Credentials are
-            stored in this browser&apos;s localStorage until the database is wired up.
+            Create an account or sign in to submit skips and upvote tips. The service
+            stores a hashed password and keeps you signed in with an auth cookie.
           </p>
           {error && <p className="form-feedback form-feedback-error">{error}</p>}
           {message && <p className="form-feedback form-feedback-ok">{message}</p>}

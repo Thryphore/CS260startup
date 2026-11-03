@@ -8,29 +8,35 @@ export function AuthProvider({ children }) {
   const [ready, setReady] = useState(false);
 
   useEffect(() => {
-    // Restore session from localStorage on mount
-    setUser(authService.getSession());
-    setReady(true);
+    let cancelled = false;
+    authService.getMe().then((result) => {
+      if (cancelled) return;
+      setUser(result.ok ? result.user : null);
+      setReady(true);
+    });
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
-  function login(email, password) {
-    const result = authService.login(email, password);
+  async function login(email, password) {
+    const result = await authService.login(email, password);
     if (result.ok) {
       setUser(result.user);
     }
     return result;
   }
 
-  function createAccount(email, password) {
-    const result = authService.createAccount(email, password);
+  async function createAccount(email, password) {
+    const result = await authService.createAccount(email, password);
     if (result.ok) {
       setUser(result.user);
     }
     return result;
   }
 
-  function logout() {
-    authService.logout();
+  async function logout() {
+    await authService.logout();
     setUser(null);
   }
 

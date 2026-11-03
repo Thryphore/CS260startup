@@ -70,17 +70,22 @@ export function Gear() {
   const [dailies, setDailies] = useState(null);
 
   useEffect(() => {
-    // Mock GW2 daily fractals payload on mount
-    setDailies(getDailyFractals());
+    let cancelled = false;
+    getDailyFractals().then((data) => {
+      if (!cancelled) setDailies(data);
+    });
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
-  function handleLookup(event) {
+  async function handleLookup(event) {
     event.preventDefault();
     const result = getGearRecommendation(fight, role);
     setRecommendation({ ...result, profession });
 
     const primarySigil = result.sigils[0];
-    setApiItem(getItemDetails(primarySigil));
+    setApiItem(await getItemDetails(primarySigil));
   }
 
   return (
@@ -106,8 +111,8 @@ export function Gear() {
       {dailies && (
         <section className="mt-4">
           <p className="daily-banner">
-            <strong>Today&apos;s fractals (mocked API):</strong>{' '}
-            {dailies.fractals.join(', ')} — {dailies.date}
+            <strong>Today&apos;s fractals:</strong>{' '}
+            {dailies.fractals.length ? dailies.fractals.join(', ') : dailies.error} — {dailies.date}
           </p>
         </section>
       )}
@@ -116,8 +121,8 @@ export function Gear() {
         <h2>General Suggestions</h2>
         <p>{CHEAT_SHEET_INTRO}</p>
         <p className="api-icon-note">
-          Item icons are placeholders for now — they will load from{' '}
-          <code>https://api.guildwars2.com/v2/items</code> in a later deliverable.
+          Item icons in this table are placeholders. A lookup below loads the real
+          icon from <code>https://api.guildwars2.com/v2/items</code>.
         </p>
         <div className="table-responsive mt-3">
           <table className="table table-hover mist-table">
@@ -156,7 +161,7 @@ export function Gear() {
         <h2>Find Specific Recommendations</h2>
         <p>
           Pick your profession, role, and fight for a tailored slot breakdown.
-          Item details below use a mocked Guild Wars 2 API response shape.
+          Item details below are loaded from the Guild Wars 2 API through the service.
         </p>
         <form className="lookup-form panel" onSubmit={handleLookup}>
           <div className="mb-3">
@@ -258,9 +263,8 @@ export function Gear() {
       <section className="mt-5">
         <h2>Item details from Guild Wars 2 API</h2>
         <p>
-          Hard-coded response shaped like{' '}
-          <code>https://api.guildwars2.com/v2/items</code>. Run a lookup above to
-          load the primary sigil.
+          Loaded from <code>https://api.guildwars2.com/v2/items</code> through the
+          service. Run a lookup above to load the primary sigil.
         </p>
         <div className="api-panel">
           <div className="api-picture-box">
