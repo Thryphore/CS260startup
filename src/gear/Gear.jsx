@@ -8,7 +8,7 @@ import {
   ROLES,
   getGearRecommendation,
 } from '@/data/gearRecommendations';
-import { getDailyFractals, getItemDetails } from '@/services/gw2Api';
+import { getDailyFractals, getItemDetails, getItemsByName } from '@/services/gw2Api';
 
 const FIGHT_OPTIONS = {
   Fractals: [
@@ -46,18 +46,22 @@ const FIGHT_OPTIONS = {
   ],
 };
 
-/** Placeholder for a GW2 item icon — replaced by API icon URLs later. */
-function ApiIconPlaceholder({ name }) {
-  return (
-    <span
-      className="api-icon-placeholder"
-      title={`${name} — icon from Guild Wars 2 API (coming later)`}
-      aria-label={`Icon placeholder for ${name}. Will load from Guild Wars 2 API later.`}
-    >
-      <span className="api-icon-placeholder-label" aria-hidden="true">
-        API
+function ItemIcon({ name, item }) {
+  if (!item?.icon) {
+    return (
+      <span className="api-icon-placeholder" title={name} aria-hidden="true">
+        <span className="api-icon-placeholder-label">API</span>
       </span>
-    </span>
+    );
+  }
+
+  return (
+    <img
+      className="api-item-icon"
+      src={item.icon}
+      alt=""
+      title={item.name}
+    />
   );
 }
 
@@ -68,11 +72,16 @@ export function Gear() {
   const [recommendation, setRecommendation] = useState(null);
   const [apiItem, setApiItem] = useState(null);
   const [dailies, setDailies] = useState(null);
+  const [itemIcons, setItemIcons] = useState({});
 
   useEffect(() => {
     let cancelled = false;
     getDailyFractals().then((data) => {
       if (!cancelled) setDailies(data);
+    });
+    const names = CHEAT_SHEET_ROWS.flatMap((row) => row.items);
+    getItemsByName(names).then((items) => {
+      if (!cancelled) setItemIcons(items);
     });
     return () => {
       cancelled = true;
@@ -121,8 +130,8 @@ export function Gear() {
         <h2>General Suggestions</h2>
         <p>{CHEAT_SHEET_INTRO}</p>
         <p className="api-icon-note">
-          Item icons in this table are placeholders. A lookup below loads the real
-          icon from <code>https://api.guildwars2.com/v2/items</code>.
+          Item icons are loaded in the browser from{' '}
+          <code>https://api.guildwars2.com/v2/items</code>.
         </p>
         <div className="table-responsive mt-3">
           <table className="table table-hover mist-table">
@@ -143,7 +152,7 @@ export function Gear() {
                     <ul className="item-icon-list">
                       {row.items.map((itemName) => (
                         <li key={itemName} className="item-icon-row">
-                          <ApiIconPlaceholder name={itemName} />
+                          <ItemIcon name={itemName} item={itemIcons[itemName]} />
                           <span>{itemName}</span>
                         </li>
                       ))}
@@ -161,7 +170,7 @@ export function Gear() {
         <h2>Find Specific Recommendations</h2>
         <p>
           Pick your profession, role, and fight for a tailored slot breakdown.
-          Item details below are loaded from the Guild Wars 2 API through the service.
+          Item details below are fetched in the browser from the Guild Wars 2 API.
         </p>
         <form className="lookup-form panel" onSubmit={handleLookup}>
           <div className="mb-3">
@@ -263,8 +272,8 @@ export function Gear() {
       <section className="mt-5">
         <h2>Item details from Guild Wars 2 API</h2>
         <p>
-          Loaded from <code>https://api.guildwars2.com/v2/items</code> through the
-          service. Run a lookup above to load the primary sigil.
+          Fetched in the browser from <code>https://api.guildwars2.com/v2/items</code>.
+          Run a lookup above to load the primary sigil.
         </p>
         <div className="api-panel">
           <div className="api-picture-box">
@@ -279,7 +288,7 @@ export function Gear() {
           <div className="api-item">
             {!apiItem && (
               <div>
-                <em>Run Show gear to load a mocked API item</em>
+                <em>Run Show gear to load this sigil from the Guild Wars 2 API</em>
               </div>
             )}
             {apiItem && (

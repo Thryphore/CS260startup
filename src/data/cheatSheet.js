@@ -2,8 +2,7 @@
  * Full Discretize fractal cheat sheet (power builds, average group).
  * Source: https://archive.discretize.eu/guides/cheat-sheet/ (June 30, 2025)
  *
- * Hard-coded until a live data source exists.
- * Item icons are placeholder slots — real icons will come from the GW2 API later.
+ * Recommendations stay hard-coded. Item icons are loaded from the Guild Wars 2 API.
  */
 
 export const CHEAT_SHEET_INTRO =

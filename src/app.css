@@ -641,6 +641,15 @@ button:disabled,
   line-height: 1.3;
 }
 
+.api-item-icon {
+  flex: 0 0 auto;
+  width: 2.25rem;
+  height: 2.25rem;
+  object-fit: contain;
+  border-radius: 0.35rem;
+  background: rgba(0, 0, 0, 0.35);
+}
+
 .api-icon-placeholder {
   flex: 0 0 auto;
   display: inline-flex;
