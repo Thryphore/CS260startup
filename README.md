@@ -103,16 +103,16 @@ For this deliverable I used JavaScript and React so that the application complet
 
 ## 🚀 Service deliverable
 
-For this deliverable I did the following. I checked the box `[x]` and added a description for things I completed.
+For this deliverable I moved login, skip submissions, and votes off `localStorage` and onto an Express service. Gear recommendations stay hard-coded. Daily fractals and item icons are loaded in the browser from the Guild Wars 2 API. The live activity feed is still a `setInterval` stand-in until the WebSocket deliverable.
 
-- [ ] I completed the prerequisites for this deliverable (Simon deployed, GitHub link, Git commits)
-- [ ] **Node.js/Express HTTP service** - I did not complete this part of the deliverable.
-- [ ] **Static middleware for frontend** - I did not complete this part of the deliverable.
-- [ ] **Calls to third party endpoints** - I did not complete this part of the deliverable.
-- [ ] **Backend service endpoints** - I did not complete this part of the deliverable.
-- [ ] **Frontend calls service endpoints** - I did not complete this part of the deliverable.
-- [ ] **Supports registration, login, logout, and restricted endpoint** - I did not complete this part of the deliverable.
-- [ ] **Uses BCrypt to hash passwords** - I did not complete this part of the deliverable.
+- [x] I completed the prerequisites for this deliverable (Simon deployed at [simon.cs260.click](https://simon.cs260.click), GitHub link in the site footer, Git commits)
+- [x] **Node.js/Express HTTP service** - `service/index.js` is an Express app with its own `service/package.json` (`express`, `cookie-parser`, `bcryptjs`, `uuid`). It listens on port 4000 unless a port is passed on the command line. `vite.config.js` proxies `/api` to `http://localhost:4000`, so `npm run dev` and `node service/index.js` run together and `fetch('/api/...')` stays same-origin.
+- [x] **Static middleware for frontend** - `app.use(express.static('public'))` serves the built frontend, and unknown paths fall back to `public/index.html` so a refresh on `/fractals` or `/gear` still loads the React app. `deployService.sh` builds the Vite bundle, copies `dist` into `public`, copies the service beside it, and restarts it with pm2: `./deployService.sh -k <pem> -h <host> -s startup`.
+- [x] **Calls to third party endpoints** - The frontend calls the Guild Wars 2 API from `src/services/gw2Api.js`. Home and Gear load today's fractal dailies from `https://api.guildwars2.com/v2/achievements/categories/88` and `/v2/achievements`. The Gear cheat sheet loads item icons from `/v2/items`, and Show gear loads the primary sigil (name, rarity, level, effect, and icon) the same way.
+- [x] **Backend service endpoints** - Users, skips, and votes are kept in memory and reset when the service restarts. `POST /api/auth/create`, `POST /api/auth/login`, `DELETE /api/auth/logout`, and `GET /api/auth/me` handle accounts. `GET /api/skips` returns the list (seed tips are in `service/defaultSkips.js`). `POST /api/skips` adds a tip. `POST /api/skips/:id/vote` records one vote per user. `GET /api/dailies` and `GET /api/items` also call the Guild Wars 2 API from the service; the pages use the browser calls in `gw2Api.js` for those features.
+- [x] **Frontend calls service endpoints** - `src/services/authService.js` calls the auth routes with `fetch`. `src/services/skipService.js` loads, submits, and upvotes skips. `AuthContext` restores the session with `GET /api/auth/me` on load. The Fractal Skips page renders that list and only enables submit and upvote while signed in. `localStorage` only remembers the display name; the httpOnly cookie is the session.
+- [x] **Supports registration, login, logout, and restricted endpoint** - Create stores the user and sets an httpOnly `token` cookie. Login checks the password and issues a new token. Logout deletes the token and clears the cookie. `POST /api/skips` and `POST /api/skips/:id/vote` use `verifyAuth` and return 401 when the cookie is missing or no longer valid, including after logout. A second vote on the same skip returns 409.
+- [x] **Uses BCrypt to hash passwords** - `createUser` stores `bcrypt.hash(password, 10)`. Login uses `bcrypt.compare`. The hash is never sent to the browser; the client only receives the email and username. The username shown in the navbar is the part of the email before `@`.
 
 ## 🚀 DB deliverable
 
