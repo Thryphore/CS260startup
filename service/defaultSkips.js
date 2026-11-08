@@ -1,7 +1,7 @@
 /**
  * Seed skip tips. Held in memory by the service until a database is added.
  */
-module.exports = [
+export default [
   {
     id: 'seed-volcanic-cannon',
     fractal: 'Volcanic',

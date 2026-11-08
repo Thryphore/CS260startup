@@ -6,7 +6,7 @@ async function readBody(response) {
   try {
     return await response.json();
   } catch {
-    return {};
+    return { error: 'Failed to parse server response' };
   }
 }
 
@@ -28,8 +28,8 @@ export async function addSkip({ fractal, title, notes }) {
       body: JSON.stringify({ fractal, title, notes }),
     });
     const body = await readBody(response);
-    if (!response.ok) {
-      return { ok: false, error: body.msg || 'Could not submit skip.', skips: body.skips || [] };
+    if (!response.ok || body.error) {
+      return { ok: false, error: body.msg || body.error || 'Could not submit skip.', skips: body.skips || [] };
     }
     return { ok: true, skips: body };
   } catch {
@@ -43,8 +43,8 @@ export async function upvoteSkip(skipId) {
       method: 'POST',
     });
     const body = await readBody(response);
-    if (!response.ok) {
-      return { ok: false, error: body.msg || 'Could not record vote.', skips: body.skips || [] };
+    if (!response.ok || body.error) {
+      return { ok: false, error: body.msg || body.error || 'Could not record vote.', skips: body.skips || [] };
     }
     return { ok: true, skips: body.skips };
   } catch {

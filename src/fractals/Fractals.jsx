@@ -61,6 +61,10 @@ export function Fractals() {
       setFormError('Title and notes are required.');
       return;
     }
+    if (notes.trim().length > 500) {
+      setFormError('Notes must be 500 characters or fewer.');
+      return;
+    }
 
     const result = await addSkip({ fractal, title, notes });
     if (!result.ok) {
@@ -177,11 +181,13 @@ export function Fractals() {
               className="form-control"
               id="skip-notes"
               rows={4}
+              maxLength={500}
               placeholder="Describe the route, timing, and any gear swaps"
               value={notes}
               onChange={(e) => setNotes(e.target.value)}
               disabled={!user}
             ></textarea>
+            <div className="form-text">{notes.length}/500</div>
           </div>
           <button className="btn btn-mist" type="submit" disabled={!user}>
             Submit skip

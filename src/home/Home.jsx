@@ -75,10 +75,10 @@ export function Home() {
         <p>
           Sign in calls the service, which hashes your password and sets an auth
           cookie. Skip submissions and votes are stored in service memory. Gear
-          recommendations are hard-coded from the Discretize cheat sheet, daily
-          fractals and item details come from the Guild Wars 2 API, and the live
-          feed on Fractal Skips uses <code>setInterval</code> until WebSocket
-          messages are added.
+          recommendations are hard-coded from the Discretize cheat sheet. Daily
+          fractals and item details come from the Guild Wars 2 API through the
+          service, and the live feed on Fractal Skips uses <code>setInterval</code>{' '}
+          until WebSocket messages are added.
         </p>
       </section>
     </main>

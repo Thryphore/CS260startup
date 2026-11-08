@@ -130,7 +130,7 @@ export function Gear() {
         <h2>General Suggestions</h2>
         <p>{CHEAT_SHEET_INTRO}</p>
         <p className="api-icon-note">
-          Item icons are loaded in the browser from{' '}
+          Item icons are loaded from the service, which calls{' '}
           <code>https://api.guildwars2.com/v2/items</code>.
         </p>
         <div className="table-responsive mt-3">
@@ -170,7 +170,7 @@ export function Gear() {
         <h2>Find Specific Recommendations</h2>
         <p>
           Pick your profession, role, and fight for a tailored slot breakdown.
-          Item details below are fetched in the browser from the Guild Wars 2 API.
+          Item details below are loaded from the service.
         </p>
         <form className="lookup-form panel" onSubmit={handleLookup}>
           <div className="mb-3">
@@ -272,7 +272,7 @@ export function Gear() {
       <section className="mt-5">
         <h2>Item details from Guild Wars 2 API</h2>
         <p>
-          Fetched in the browser from <code>https://api.guildwars2.com/v2/items</code>.
+          Loaded from <code>/api/items</code>, which calls the Guild Wars 2 API.
           Run a lookup above to load the primary sigil.
         </p>
         <div className="api-panel">

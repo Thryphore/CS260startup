@@ -1,22 +1,18 @@
-const cookieParser = require('cookie-parser');
-const bcrypt = require('bcryptjs');
-const express = require('express');
-const uuid = require('uuid');
-const defaultSkips = require('./defaultSkips');
+import cookieParser from 'cookie-parser';
+import bcrypt from 'bcryptjs';
+import express from 'express';
+import { v4 as uuid } from 'uuid';
+import defaultSkips from './defaultSkips.js';
+import { getDailyFractals, getItemById, getItemsByName, gw2Origin, itemIdForName } from './gw2.js';
 
 const app = express();
 const authCookieName = 'token';
+const MAX_NOTES_LENGTH = 500;
 
 // Users, skips, and votes live in memory and reset when the service restarts.
 let users = [];
 let skips = defaultSkips.map((skip) => ({ ...skip }));
 const votes = new Set();
-
-const ITEM_IDS = {
-  'Superior Sigil of Force': 24615,
-  'Superior Sigil of Impact': 24868,
-  'Superior Sigil of the Night': 36053,
-};
 
 const port = process.argv.length > 2 ? process.argv[2] : 4000;
 
@@ -50,7 +46,7 @@ apiRouter.post('/auth/login', async (req, res) => {
   const email = normalizeEmail(req.body.email);
   const user = await findUser('email', email);
   if (user && (await bcrypt.compare(req.body.password, user.password))) {
-    user.token = uuid.v4();
+    user.token = uuid();
     setAuthCookie(res, user.token);
     res.send({ email: user.email, username: user.username });
     return;
@@ -92,9 +88,13 @@ apiRouter.post('/skips', verifyAuth, (req, res) => {
     res.status(400).send({ msg: 'Fractal, title, and notes are required' });
     return;
   }
+  if (notes.length > MAX_NOTES_LENGTH) {
+    res.status(400).send({ msg: `Notes must be ${MAX_NOTES_LENGTH} characters or fewer` });
+    return;
+  }
 
   const skip = {
-    id: `skip-${uuid.v4()}`,
+    id: `skip-${uuid()}`,
     fractal,
     title,
     notes,
@@ -126,54 +126,34 @@ apiRouter.post('/skips/:id/vote', verifyAuth, (req, res) => {
 
 // Today's fractal dailies from the Guild Wars 2 API
 apiRouter.get('/dailies', async (_req, res) => {
-  const category = await gw2('/v2/achievements/categories/88?v=latest');
-  const ids = category.achievements.map((entry) => entry.id).join(',');
-  const achievements = await gw2(`/v2/achievements?ids=${ids}`);
-
-  const fractals = [];
-  const recommended = [];
-  for (const achievement of achievements) {
-    const tier = achievement.name.match(/^Daily Tier \d+ (.+)$/);
-    if (tier && !fractals.includes(tier[1])) {
-      fractals.push(tier[1]);
-    }
-    const scale = achievement.name.match(/Scale (\d+)/);
-    if (scale) {
-      recommended.push(`Scale ${scale[1]}`);
-    }
-  }
-
-  res.send({
-    date: new Date().toISOString().slice(0, 10),
-    fractals,
-    recommended,
-    source: 'https://api.guildwars2.com/v2/achievements/categories/88',
-  });
+  res.send(await getDailyFractals());
 });
 
-// Item details from the Guild Wars 2 API
+// Item details from the Guild Wars 2 API.
+// ?names=a,b returns icon data for the cheat sheet.
+// ?name= returns one item for the lookup panel.
 apiRouter.get('/items', async (req, res) => {
+  if (req.query.names) {
+    const names = String(req.query.names)
+      .split(',')
+      .map((name) => name.trim())
+      .filter(Boolean);
+    res.send({ items: await getItemsByName(names) });
+    return;
+  }
+
   const name = String(req.query.name || '').trim();
-  const id = ITEM_IDS[name];
+  const id = itemIdForName(name);
   if (!id) {
     res.status(404).send({ msg: `No Guild Wars 2 item is mapped for "${name}".` });
     return;
   }
 
-  const item = await gw2(`/v2/items/${id}`);
-  const effect = item.details?.infix_upgrade?.buff?.description;
+  const item = await getItemById(id);
   res.send({
     date: new Date().toISOString().slice(0, 10),
-    source: `https://api.guildwars2.com/v2/items/${id}`,
-    item: {
-      id: item.id,
-      name: item.name,
-      type: item.type,
-      rarity: item.rarity,
-      level: item.level,
-      description: effect || item.description,
-      icon: item.icon,
-    },
+    source: `${gw2Origin}/v2/items/${id}`,
+    item,
   });
 });
 
@@ -205,7 +185,7 @@ async function createUser(email, password) {
     email,
     username: email.split('@')[0] || email,
     password: passwordHash,
-    token: uuid.v4(),
+    token: uuid(),
   };
   users.push(user);
   return user;
@@ -227,16 +207,6 @@ function setAuthCookie(res, authToken) {
     httpOnly: true,
     sameSite: 'strict',
   });
-}
-
-async function gw2(path) {
-  const response = await fetch(`https://api.guildwars2.com${path}`);
-  if (!response.ok) {
-    const error = new Error(`Guild Wars 2 API returned ${response.status}`);
-    error.status = 502;
-    throw error;
-  }
-  return response.json();
 }
 
 app.listen(port, () => {
