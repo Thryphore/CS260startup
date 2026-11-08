@@ -2,13 +2,7 @@
  * Skip list calls. The Express service keeps the list in memory.
  */
 
-async function readBody(response) {
-  try {
-    return await response.json();
-  } catch {
-    return { error: 'Failed to parse server response' };
-  }
-}
+import { readBody } from '@/services/apiUtils';
 
 export async function getSkips() {
   const response = await fetch('/api/skips');

@@ -1,6 +1,7 @@
 import cookieParser from 'cookie-parser';
 import bcrypt from 'bcryptjs';
 import express from 'express';
+import morgan from 'morgan';
 import { v4 as uuid } from 'uuid';
 import defaultSkips from './defaultSkips.js';
 import { getDailyFractals, getItemById, getItemsByName, gw2Origin, itemIdForName } from './gw2.js';
@@ -14,8 +15,9 @@ let users = [];
 let skips = defaultSkips.map((skip) => ({ ...skip }));
 const votes = new Set();
 
-const port = process.argv.length > 2 ? process.argv[2] : 4000;
+const port = process.env.PORT || (process.argv.length > 2 ? process.argv[2] : 4000);
 
+app.use(morgan('dev'));
 app.use(express.json());
 app.use(cookieParser());
 app.use(express.static('public'));
@@ -29,6 +31,10 @@ apiRouter.post('/auth/create', async (req, res) => {
   const password = req.body.password;
   if (!email || !password) {
     res.status(400).send({ msg: 'Email and password are required' });
+    return;
+  }
+  if (!/^\S+@\S+\.\S+$/.test(email)) {
+    res.status(400).send({ msg: 'A valid email is required' });
     return;
   }
   if (await findUser('email', email)) {

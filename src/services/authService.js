@@ -3,6 +3,8 @@
  * auth cookie. This module only remembers the display user for the UI.
  */
 
+import { readBody } from '@/services/apiUtils';
+
 const SESSION_KEY = 'fsh_session';
 
 export function getSession() {
@@ -18,14 +20,6 @@ export function setSession(user) {
     localStorage.setItem(SESSION_KEY, JSON.stringify(user));
   } else {
     localStorage.removeItem(SESSION_KEY);
-  }
-}
-
-async function readBody(response) {
-  try {
-    return await response.json();
-  } catch {
-    return {};
   }
 }
 
@@ -47,12 +41,12 @@ async function loginOrCreate(endpoint, email, password, fallbackError) {
       },
     });
     const body = await readBody(response);
-    if (response.status === 200) {
+    if (response.status === 200 && !body.error) {
       const user = { email: body.email, username: body.username };
       setSession(user);
       return { ok: true, user };
     }
-    return { ok: false, error: body.msg || fallbackError };
+    return { ok: false, error: body.msg || body.error || fallbackError };
   } catch {
     return { ok: false, error: 'Could not reach the service.' };
   }
