@@ -56,7 +56,9 @@ apiRouter.post('/auth/create', async (req, res) => {
       res.status(409).send({ msg: 'Existing user' });
       return;
     }
-    throw ex;
+    console.log(`Unable to create user: ${ex.message}`);
+    res.status(503).send({ msg: 'Could not create account. Try again shortly.' });
+    return;
   }
   setAuthCookie(res, user.token);
   res.send({ email: user.email, username: user.username });
@@ -123,25 +125,35 @@ apiRouter.post('/skips', verifyAuth, async (req, res) => {
     submittedBy: req.user.username,
     votes: 0,
   };
-  await addSkip(skip);
-  res.send(await getSkips());
+  try {
+    await addSkip(skip);
+    res.send(await getSkips());
+  } catch (ex) {
+    console.log(`Unable to submit skip: ${ex.message}`);
+    res.status(503).send({ msg: 'Could not save skip. Try again shortly.' });
+  }
 });
 
 // Upvote a skip — restricted, one vote per user
 apiRouter.post('/skips/:id/vote', verifyAuth, async (req, res) => {
-  const skip = await getSkipById(req.params.id);
-  if (!skip) {
-    res.status(404).send({ msg: 'Skip not found', skips: await getSkips() });
-    return;
-  }
+  try {
+    const skip = await getSkipById(req.params.id);
+    if (!skip) {
+      res.status(404).send({ msg: 'Skip not found', skips: await getSkips() });
+      return;
+    }
 
-  const added = await addVote(req.user.email, skip.id);
-  if (!added) {
-    res.status(409).send({ msg: 'You already voted for this skip.', skips: await getSkips() });
-    return;
-  }
+    const added = await addVote(req.user.email, skip.id);
+    if (!added) {
+      res.status(409).send({ msg: 'You already voted for this skip.', skips: await getSkips() });
+      return;
+    }
 
-  res.send({ skips: await getSkips() });
+    res.send({ skips: await getSkips() });
+  } catch (ex) {
+    console.log(`Unable to record vote: ${ex.message}`);
+    res.status(503).send({ msg: 'Could not record vote. Try again shortly.' });
+  }
 });
 
 // Today's fractal dailies from the Guild Wars 2 API
