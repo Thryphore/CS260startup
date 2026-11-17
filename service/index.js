@@ -3,18 +3,23 @@ import bcrypt from 'bcryptjs';
 import express from 'express';
 import morgan from 'morgan';
 import { v4 as uuid } from 'uuid';
-import { connectDatabase } from './database.js';
-import defaultSkips from './defaultSkips.js';
+import {
+  addSkip,
+  addUser,
+  addVote,
+  connectDatabase,
+  getSkipById,
+  getSkips,
+  getUserByEmail,
+  getUserByToken,
+  removeUserToken,
+  updateUserToken,
+} from './database.js';
 import { getDailyFractals, getItemById, getItemsByName, gw2Origin, itemIdForName } from './gw2.js';
 
 const app = express();
 const authCookieName = 'token';
 const MAX_NOTES_LENGTH = 500;
-
-// Users, skips, and votes live in memory and reset when the service restarts.
-let users = [];
-let skips = defaultSkips.map((skip) => ({ ...skip }));
-const votes = new Set();
 
 const port = process.env.PORT || (process.argv.length > 2 ? process.argv[2] : 4000);
 
@@ -38,12 +43,21 @@ apiRouter.post('/auth/create', async (req, res) => {
     res.status(400).send({ msg: 'A valid email is required' });
     return;
   }
-  if (await findUser('email', email)) {
+  if (await getUserByEmail(email)) {
     res.status(409).send({ msg: 'Existing user' });
     return;
   }
 
   const user = await createUser(email, password);
+  try {
+    await addUser(user);
+  } catch (ex) {
+    if (ex.code === 11000) {
+      res.status(409).send({ msg: 'Existing user' });
+      return;
+    }
+    throw ex;
+  }
   setAuthCookie(res, user.token);
   res.send({ email: user.email, username: user.username });
 });
@@ -51,10 +65,11 @@ apiRouter.post('/auth/create', async (req, res) => {
 // GetAuth login an existing user
 apiRouter.post('/auth/login', async (req, res) => {
   const email = normalizeEmail(req.body.email);
-  const user = await findUser('email', email);
+  const user = await getUserByEmail(email);
   if (user && (await bcrypt.compare(req.body.password, user.password))) {
-    user.token = uuid();
-    setAuthCookie(res, user.token);
+    const token = uuid();
+    await updateUserToken(user.email, token);
+    setAuthCookie(res, token);
     res.send({ email: user.email, username: user.username });
     return;
   }
@@ -63,9 +78,9 @@ apiRouter.post('/auth/login', async (req, res) => {
 
 // DeleteAuth logout a user
 apiRouter.delete('/auth/logout', async (req, res) => {
-  const user = await findUser('token', req.cookies[authCookieName]);
+  const user = await getUserByToken(req.cookies[authCookieName]);
   if (user) {
-    delete user.token;
+    await removeUserToken(user.email);
   }
   res.clearCookie(authCookieName);
   res.status(204).end();
@@ -73,7 +88,7 @@ apiRouter.delete('/auth/logout', async (req, res) => {
 
 // Current user from the auth cookie. Used to restore the session after refresh.
 apiRouter.get('/auth/me', async (req, res) => {
-  const user = await findUser('token', req.cookies[authCookieName]);
+  const user = await getUserByToken(req.cookies[authCookieName]);
   if (!user) {
     res.status(401).send({ msg: 'Unauthorized' });
     return;
@@ -82,12 +97,12 @@ apiRouter.get('/auth/me', async (req, res) => {
 });
 
 // GetSkips — public, like browsing the list before signing in
-apiRouter.get('/skips', (_req, res) => {
-  res.send(sortedSkips());
+apiRouter.get('/skips', async (_req, res) => {
+  res.send(await getSkips());
 });
 
 // SubmitSkip — restricted
-apiRouter.post('/skips', verifyAuth, (req, res) => {
+apiRouter.post('/skips', verifyAuth, async (req, res) => {
   const fractal = String(req.body.fractal || '').trim();
   const title = String(req.body.title || '').trim();
   const notes = String(req.body.notes || '').trim();
@@ -108,27 +123,25 @@ apiRouter.post('/skips', verifyAuth, (req, res) => {
     submittedBy: req.user.username,
     votes: 0,
   };
-  skips.unshift(skip);
-  res.send(sortedSkips());
+  await addSkip(skip);
+  res.send(await getSkips());
 });
 
 // Upvote a skip — restricted, one vote per user
-apiRouter.post('/skips/:id/vote', verifyAuth, (req, res) => {
-  const skip = skips.find((entry) => entry.id === req.params.id);
+apiRouter.post('/skips/:id/vote', verifyAuth, async (req, res) => {
+  const skip = await getSkipById(req.params.id);
   if (!skip) {
-    res.status(404).send({ msg: 'Skip not found', skips: sortedSkips() });
+    res.status(404).send({ msg: 'Skip not found', skips: await getSkips() });
     return;
   }
 
-  const key = `${req.user.email}:${skip.id}`;
-  if (votes.has(key)) {
-    res.status(409).send({ msg: 'You already voted for this skip.', skips: sortedSkips() });
+  const added = await addVote(req.user.email, skip.id);
+  if (!added) {
+    res.status(409).send({ msg: 'You already voted for this skip.', skips: await getSkips() });
     return;
   }
 
-  votes.add(key);
-  skip.votes += 1;
-  res.send({ skips: sortedSkips() });
+  res.send({ skips: await getSkips() });
 });
 
 // Today's fractal dailies from the Guild Wars 2 API
@@ -172,12 +185,8 @@ app.use((_req, res) => {
   res.sendFile('index.html', { root: 'public' });
 });
 
-function sortedSkips() {
-  return [...skips].sort((a, b) => b.votes - a.votes);
-}
-
 async function verifyAuth(req, res, next) {
-  const user = await findUser('token', req.cookies[authCookieName]);
+  const user = await getUserByToken(req.cookies[authCookieName]);
   if (user) {
     req.user = user;
     next();
@@ -194,13 +203,7 @@ async function createUser(email, password) {
     password: passwordHash,
     token: uuid(),
   };
-  users.push(user);
   return user;
-}
-
-async function findUser(field, value) {
-  if (!value) return null;
-  return users.find((user) => user[field] === value);
 }
 
 function normalizeEmail(email) {

@@ -1,5 +1,5 @@
 /**
- * Seed skip tips. Held in memory by the service until a database is added.
+ * Seed skip tips. Inserted into MongoDB when the skip collection is empty.
  */
 export default [
   {

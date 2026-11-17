@@ -1,5 +1,5 @@
 /**
- * Skip list calls. The Express service keeps the list in memory.
+ * Skip list calls. The Express service stores the list in MongoDB.
  */
 
 import { readBody } from '@/services/apiUtils';
