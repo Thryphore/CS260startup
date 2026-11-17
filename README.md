@@ -116,11 +116,11 @@ For this deliverable I moved login, skip submissions, and votes off `localStorag
 
 ## 🚀 DB deliverable
 
-For this deliverable I did the following. I checked the box `[x]` and added a description for things I completed.
+For this deliverable I moved users, skips, and votes out of the in-memory arrays in `service/index.js` and into MongoDB Atlas. The Express routes stay the same; only the storage layer changed. Gear recommendations stay hard-coded. The live activity feed is still a `setInterval` stand-in until the WebSocket deliverable.
 
-- [ ] I completed the prerequisites for this deliverable (Simon deployed, GitHub link, Git commits)
-- [ ] **Stores data in MongoDB** - I did not complete this part of the deliverable.
-- [ ] **Stores credentials in MongoDB** - I did not complete this part of the deliverable.
+- [x] I completed the prerequisites for this deliverable (Simon deployed at [simon.cs260.click](https://simon.cs260.click), GitHub link in the site footer, Git commits)
+- [x] **Stores data in MongoDB** - `service/database.js` connects with the official `mongodb` driver using credentials from `service/dbConfig.json` (gitignored; copy from `service/dbConfig.example.json`). The service pings Atlas on startup and will not listen until the connection works. The `startup` database holds `user`, `skip`, and `vote` collections. Seed tips from `service/defaultSkips.js` are inserted once when `skip` is empty. `GET /api/skips`, `POST /api/skips`, and `POST /api/skips/:id/vote` read and write those collections. A unique index on `{ email, skipId }` keeps one vote per user; a second vote still returns 409.
+- [x] **Stores credentials in MongoDB** - Registration inserts the account into the `user` collection with a bcrypt password hash and auth token. Login looks up by email, compares the hash, and updates the token. Logout unsets the token. `GET /api/auth/me` and `verifyAuth` load the user by cookie token from MongoDB, so sessions survive a service restart. A unique index on `email` rejects duplicate accounts with 409.
 
 ## 🚀 WebSocket deliverable
 
