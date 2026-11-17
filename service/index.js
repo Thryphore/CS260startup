@@ -3,6 +3,7 @@ import bcrypt from 'bcryptjs';
 import express from 'express';
 import morgan from 'morgan';
 import { v4 as uuid } from 'uuid';
+import { connectDatabase } from './database.js';
 import defaultSkips from './defaultSkips.js';
 import { getDailyFractals, getItemById, getItemsByName, gw2Origin, itemIdForName } from './gw2.js';
 
@@ -215,6 +216,13 @@ function setAuthCookie(res, authToken) {
   });
 }
 
-app.listen(port, () => {
-  console.log(`Listening on port ${port}`);
-});
+connectDatabase()
+  .then(() => {
+    app.listen(port, () => {
+      console.log(`Listening on port ${port}`);
+    });
+  })
+  .catch((ex) => {
+    console.log(`Unable to connect to database: ${ex.message}`);
+    process.exit(1);
+  });
