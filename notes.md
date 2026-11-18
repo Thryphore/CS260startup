@@ -38,7 +38,7 @@ Interesting things I have learned about React
 
 ## Service
 
-The frontend and the backend are two apps. Frontend packages stay in the root `package.json`. Service packages (`express`, `cookie-parser`, `bcryptjs`, `uuid`) stay in `service/package.json`. Installing the backend packages in the frontend is what causes a 502 after deploy.
+The frontend and the backend are two apps. Frontend packages stay in the root `package.json`. Service packages (`express`, `cookie-parser`, `bcryptjs`, `uuid`, `mongodb`) stay in `service/package.json`. Installing the backend packages in the frontend is what causes a 502 after deploy.
 
 - Run the service with `node index.js` from `service` and the UI with `npm run dev` (port 5173). The service port is `PORT`, then a command-line argument, then 4000. `vite.config.js` proxies `/api` to port 4000, so `fetch('/api/skips')` is same-origin and the browser will send the auth cookie. `morgan` logs method, path, and status.
 - `express.static('public')` is for production. `deployService.sh` copies the Vite `dist` folder to `public` on the server and restarts the process with pm2. During development Vite serves the React app, and the service only has to answer `/api`.
@@ -46,6 +46,15 @@ The frontend and the backend are two apps. Frontend packages stay in the root `p
 - Passwords are stored with `bcrypt.hash(password, 10)` and checked with `bcrypt.compare`. The response only sends `email` and `username`. The navbar username is the part of the email before `@`.
 - The session is an httpOnly `token` cookie (`secure`, `sameSite: 'strict'`). Page JavaScript cannot read it. `GET /api/auth/me` is how the navbar gets the username back after a refresh. `localStorage` only keeps the display user; `verifyAuth` trusts the cookie.
 - `POST /api/skips` and `POST /api/skips/:id/vote` are restricted. A missing cookie, or a cookie cleared by logout, returns 401. Each user can upvote a skip once; the second vote returns 409. Notes longer than 500 characters are rejected.
-- Users, skips, and votes are arrays in memory. Restarting the service drops new accounts and submissions. MongoDB is the next deliverable. Seed tips live only in `service/defaultSkips.js`. The React app loads that list from `GET /api/skips`.
 - Third-party calls stay on the service. `service/gw2.js` fetches `https://api.guildwars2.com` for daily fractals and items. Home and Gear call `GET /api/dailies` and `GET /api/items` through `src/services/gw2Api.js`.
 - The live feed on Fractal Skips is still `setInterval`. WebSocket comes later.
+
+## Database
+
+Users, skips, and votes now live in MongoDB Atlas instead of in-memory arrays. Restarting the service no longer wipes accounts or submissions.
+
+- `service/database.js` connects with the official `mongodb` driver and pings Atlas before the Express app listens. Credentials come from `MONGO_HOSTNAME`, `MONGO_USERNAME`, and `MONGO_PASSWORD`, or from gitignored `service/dbConfig.json` (copy `service/dbConfig.example.json`). Never commit the real password file.
+- The `startup` database has three collections: `user`, `skip`, and `vote`. Unique indexes guard email, skip `id`, and one vote per `{ email, skipId }`.
+- Registration inserts the bcrypt hash and auth token into `user`. Login updates the token; logout unsets it. `verifyAuth` and `/api/auth/me` look the user up by cookie token in MongoDB.
+- Seed tips from `service/defaultSkips.js` are inserted once when `skip` is empty. New submissions and votes write through `POST /api/skips` and `POST /api/skips/:id/vote`.
+- On deploy, make sure the EC2 IP is allowed in Atlas Network Access, and that `dbConfig.json` (or the `MONGO_*` env vars) exists on the server.
